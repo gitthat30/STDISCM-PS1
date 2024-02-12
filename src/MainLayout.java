@@ -120,23 +120,6 @@ public class MainLayout {
         pointPanel.add(pointGenerateParticleButton);
     }
 
-    public static boolean isNumeric(String s) {
-        try {
-            double d = Double.parseDouble(s);
-        } catch (NumberFormatException nfe) {
-            return false;
-        }
-        return true;
-    }
-
-    public static boolean ifAnyPointFieldsNull() {
-        return (pointNumField.getText().isEmpty() || pointStartXField.getText().isEmpty() || pointStartYField.getText().isEmpty() || pointEndXField.getText().isEmpty() || pointEndYField.getText().isEmpty());
-    }
-
-    public static boolean ifAnyPointFieldsNotNumber() {
-        return (!isNumeric(pointNumField.getText()) || !isNumeric(pointStartXField.getText()) || !isNumeric(pointEndXField.getText()) || !isNumeric(pointStartYField.getText()) || !isNumeric(pointEndYField.getText()));
-    }
-
     public static void initializeVelocityPanel() {
         velocityPanel.setLayout(new GridLayout(7, 2));
         velocityPanel.setPreferredSize(new Dimension(particlePanelDimension));
@@ -159,7 +142,7 @@ public class MainLayout {
 
     public static void initializeWallPanel() {
         wallPanel.setLayout(new GridLayout(5, 2));
-        wallPanel.setPreferredSize(new Dimension(800, 80));
+        wallPanel.setPreferredSize(new Dimension(300, 80));
 
         wallPanel.add(wallStartXText);
         wallPanel.add(wallStartXField);
@@ -175,6 +158,67 @@ public class MainLayout {
 
         addFiller(wallPanel);
         wallPanel.add(wallGenerateWallButton);
+    }
+
+    public static void initializeGUI() {
+        MainFrame.setPreferredSize(new Dimension(1920,1080));
+        MainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        MainPanel.setPreferredSize(new Dimension(1920,1080));
+        MainPanel.setLayout(new FlowLayout());
+
+        MainPanel.add(particlePanel);
+        particlePanel.setPreferredSize(new Dimension(1280,720));
+
+        newRow();
+
+        //Generating as a grid of 1 row and 3 columns. There are 3 ways to add particles, so that's why there are 3 columns
+        particleGenerationContainer.setLayout(new GridLayout(1, 3));
+        particleGenerationContainer.setPreferredSize(new Dimension(1800, 115));
+
+        initializePointPanel();
+        initializeAnglePanel();
+        initializeVelocityPanel();
+        initializeWallPanel();
+
+        particleGenerationContainer.add(pointPanel);
+        particleGenerationContainer.add(anglePanel);
+        particleGenerationContainer.add(velocityPanel);
+
+        MainPanel.add(particleGenerationLabel);
+        newRow();
+
+        MainPanel.add(particleGenerationContainer);
+        newRow();
+
+        MainPanel.add(wallLabel);
+        newRow();
+
+        MainPanel.add(wallPanel);
+
+        JScrollPane scroll = new JScrollPane(MainPanel,ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+
+        MainFrame.getContentPane().add(scroll);
+
+        initializePointActionListener();
+
+        MainFrame.pack();
+    }
+
+    public static boolean isNumeric(String s) {
+        try {
+            double d = Double.parseDouble(s);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean ifAnyPointFieldsNull() {
+        return (pointNumField.getText().isEmpty() || pointStartXField.getText().isEmpty() || pointStartYField.getText().isEmpty() || pointEndXField.getText().isEmpty() || pointEndYField.getText().isEmpty());
+    }
+
+    public static boolean ifAnyPointFieldsNotNumber() {
+        return (!isNumeric(pointNumField.getText()) || !isNumeric(pointStartXField.getText()) || !isNumeric(pointEndXField.getText()) || !isNumeric(pointStartYField.getText()) || !isNumeric(pointEndYField.getText()));
     }
 
     public static void initializePointActionListener() {
@@ -199,8 +243,6 @@ public class MainLayout {
                     System.out.println(endX);
                     System.out.println(startY);
                     System.out.println(endY);
-
-
 
                     //Get Distance from start and end
                     int distanceX = Math.abs(startX - endX);
@@ -246,49 +288,6 @@ public class MainLayout {
         Timer tempTimer = new Timer(t, r);
         tempTimer.setRepeats(false);
         return tempTimer;
-    }
-
-    public static void initializeGUI() {
-        MainFrame.setPreferredSize(new Dimension(1920,1080));
-        MainPanel.setPreferredSize(new Dimension(1920,1080));
-        MainPanel.setLayout(new FlowLayout());
-
-        MainPanel.add(particlePanel);
-        particlePanel.setPreferredSize(new Dimension(1280,720));
-
-        newRow();
-
-        //Generating as a grid of 1 row and 3 columns. There are 3 ways to add particles, so that's why there are 3 columns
-        particleGenerationContainer.setLayout(new GridLayout(1, 3));
-        particleGenerationContainer.setPreferredSize(new Dimension(1800, 115));
-
-        initializePointPanel();
-        initializeAnglePanel();
-        initializeVelocityPanel();
-        initializeWallPanel();
-
-        particleGenerationContainer.add(pointPanel);
-        particleGenerationContainer.add(anglePanel);
-        particleGenerationContainer.add(velocityPanel);
-
-        MainPanel.add(particleGenerationLabel);
-        newRow();
-
-        MainPanel.add(particleGenerationContainer);
-        newRow();
-
-        MainPanel.add(wallLabel);
-        newRow();
-
-        MainPanel.add(wallPanel);
-
-        JScrollPane scroll = new JScrollPane(MainPanel,ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-
-        MainFrame.getContentPane().add(scroll);
-
-        initializePointActionListener();
-
-        MainFrame.pack();
     }
 
 
