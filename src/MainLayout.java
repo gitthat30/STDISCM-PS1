@@ -118,7 +118,23 @@ public class MainLayout {
 
         addFiller(pointPanel);
         pointPanel.add(pointGenerateParticleButton);
+    }
 
+    public static boolean isNumeric(String s) {
+        try {
+            double d = Double.parseDouble(s);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean ifAnyPointFieldsNull() {
+        return (pointNumField.getText().isEmpty() || pointStartXField.getText().isEmpty() || pointStartYField.getText().isEmpty() || pointEndXField.getText().isEmpty() || pointEndYField.getText().isEmpty());
+    }
+
+    public static boolean ifAnyPointFieldsNotNumber() {
+        return (!isNumeric(pointNumField.getText()) || !isNumeric(pointStartXField.getText()) || !isNumeric(pointEndXField.getText()) || !isNumeric(pointStartYField.getText()) || !isNumeric(pointEndYField.getText()));
     }
 
     public static void initializeVelocityPanel() {
@@ -159,6 +175,65 @@ public class MainLayout {
 
         addFiller(wallPanel);
         wallPanel.add(wallGenerateWallButton);
+    }
+
+    public static void initializePointActionListener() {
+        pointGenerateParticleButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(ifAnyPointFieldsNull()) {
+                    JOptionPane.showMessageDialog(null, "Please fill in all fields");
+                }
+                else if (ifAnyPointFieldsNotNumber()) {
+                    JOptionPane.showMessageDialog(null, "Please make sure you're only entering numbers.");
+                }
+                else {
+                    //Parsing Input
+                    int startX = Integer.parseInt(pointStartXField.getText());
+                    int endX = Integer.parseInt(pointEndXField.getText());
+                    int startY = 720 - Integer.parseInt(pointStartYField.getText());
+                    int endY = 720 - Integer.parseInt(pointEndYField.getText());
+                    int numParticles = Integer.parseInt(pointNumField.getText());
+
+                    System.out.println(startX);
+                    System.out.println(endX);
+                    System.out.println(startY);
+                    System.out.println(endY);
+
+
+
+                    //Get Distance from start and end
+                    int distanceX = Math.abs(startX - endX);
+                    int distanceY = Math.abs(startY - endY);
+
+                    //Get increment
+                    int incrementX = distanceX / (numParticles + 1);
+                    int incrementY = distanceY / (numParticles + 1);
+
+                    System.out.println(incrementX);
+                    System.out.println(incrementY);
+
+                    //Pointer starts at start
+                    int pointerX = startX + incrementX;
+                    int pointerY = startY - incrementY;
+
+                    //Apply threading here maybe? For now single threaded while testing
+                    for(int x = 0;x < numParticles;x++) {
+                        if(pointerX > 1270)
+                            pointerX = 1270;
+                        if(pointerY > 710)
+                            pointerY = 710;
+
+                        particlePanel.addParticle(new Particle(pointerX, pointerY));
+                        System.out.println("X = " + pointerX);
+                        System.out.println("Y = " + pointerY);
+                        pointerX += incrementX;
+                        pointerY -= incrementY;
+                    }
+                }
+
+            }
+        });
     }
 
     public static void newRow() {
@@ -211,12 +286,7 @@ public class MainLayout {
 
         MainFrame.getContentPane().add(scroll);
 
-        angleGenerateParticleButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("WOPRKING");
-            }
-        });
+        initializePointActionListener();
 
         MainFrame.pack();
     }
@@ -226,33 +296,6 @@ public class MainLayout {
 
 
         initializeGUI();
-
-        Timer timer1 = createTimer(1000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                particlePanel.addParticle(new Particle(0, 0));
-            }
-        });
-        timer1.start();
-
-        Timer timer2 = new Timer(1500, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                particlePanel.addParticle(new Particle(1000, 710));
-            }
-        });
-        timer2.setRepeats(false);
-        timer2.start();
-
-        Timer timer3 = new Timer(2000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                particlePanel.changeParticleLocation(0, 1270, 710);
-                particlePanel.repaint();
-            }
-        });
-        timer3.setRepeats(false);
-        timer3.start();
 
         MainFrame.setVisible(true);
 
