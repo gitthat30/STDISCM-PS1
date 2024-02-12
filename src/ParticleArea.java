@@ -6,7 +6,8 @@ public class ParticleArea extends JPanel {
     int startX;
     int startY;
     boolean test;
-    ArrayList<Particle> particleList = new ArrayList<Particle>();
+    ArrayList<Particle> particleList = new ArrayList<>();
+    ArrayList<Wall> wallList = new ArrayList<>();
 
 
     ParticleArea() {
@@ -17,6 +18,11 @@ public class ParticleArea extends JPanel {
 
     public void addParticle(Particle p) {
         particleList.add(p);
+        repaint();
+    }
+
+    public void addWall(Wall w) {
+        wallList.add(w);
         repaint();
     }
 
@@ -32,6 +38,10 @@ public class ParticleArea extends JPanel {
         for (Particle p : particleList) {
             System.out.println(p);
             g.drawOval(p.x, p.y, 9, 9);
+        }
+
+        for (Wall w : wallList) {
+            g.drawLine(w.getX1(), w.getY1(), w.getX2(), w.getY2());
         }
     }
 }

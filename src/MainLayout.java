@@ -213,22 +213,42 @@ public class MainLayout {
         return true;
     }
 
-    public static boolean ifAnyPointFieldsNull() {
-        return (pointNumField.getText().isEmpty() || pointStartXField.getText().isEmpty() || pointStartYField.getText().isEmpty() || pointEndXField.getText().isEmpty() || pointEndYField.getText().isEmpty());
-    }
-
     public static boolean ifAnyPointFieldsNotNumber() {
         return (!isNumeric(pointNumField.getText()) || !isNumeric(pointStartXField.getText()) || !isNumeric(pointEndXField.getText()) || !isNumeric(pointStartYField.getText()) || !isNumeric(pointEndYField.getText()));
+    }
+
+    /* General method to check if there are invalid inputs in panel's fields */
+    public static Integer invalidFields(JPanel panel) {
+        Component[] components = panel.getComponents();
+
+        for (Component component : components) {
+            if (component instanceof JTextField textField) {
+                String val = textField.getText();
+                if (val.isEmpty()) {
+                    // Returns status code 1 if there is an empty field
+                    return 1;
+                }
+                try {
+                    double d = Integer.parseInt(val);
+                } catch (NumberFormatException nfe) {
+                    // Returns status code 2 if there is a non-numeric value
+                    return 2;
+                }
+            }
+        }
+        // Returns null if no invalid field found
+        return null;
     }
 
     public static void initializePointActionListener() {
         pointGenerateParticleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(ifAnyPointFieldsNull()) {
+                Integer invalidResult = invalidFields(pointPanel);
+                if(invalidResult != null && invalidResult == 1) {
                     JOptionPane.showMessageDialog(null, "Please fill in all fields");
                 }
-                else if (ifAnyPointFieldsNotNumber()) {
+                else if (invalidResult != null && invalidResult == 2) {
                     JOptionPane.showMessageDialog(null, "Please make sure you're only entering numbers.");
                 }
                 else {
@@ -261,10 +281,8 @@ public class MainLayout {
 
                     //Apply threading here maybe? For now single threaded while testing
                     for(int x = 0;x < numParticles;x++) {
-                        if(pointerX > 1270)
-                            pointerX = 1270;
-                        if(pointerY > 710)
-                            pointerY = 710;
+                        pointerX = Math.min(pointerX, 1270);
+                        pointerY = Math.min(pointerY, 710);
 
                         particlePanel.addParticle(new Particle(pointerX, pointerY));
                         System.out.println("X = " + pointerX);
@@ -274,6 +292,26 @@ public class MainLayout {
                     }
                 }
 
+            }
+        });
+
+        wallGenerateWallButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Integer invalidResult = invalidFields(wallPanel);
+                if(invalidResult != null && invalidResult == 1) {
+                    JOptionPane.showMessageDialog(null, "Please fill in all fields");
+                }
+                else if (invalidResult != null && invalidResult == 2) {
+                    JOptionPane.showMessageDialog(null, "Please make sure you're only entering numbers.");
+                }
+                else {
+                    int startX = Integer.parseInt(wallStartXField.getText());
+                    int startY = 720 - Integer.parseInt(wallStartYField.getText());
+                    int endX = Integer.parseInt(wallEndXField.getText());
+                    int endY = 720 - Integer.parseInt(wallEndYField.getText());
+                    particlePanel.addWall(new Wall(startX, startY, endX, endY));
+                }
             }
         });
     }
