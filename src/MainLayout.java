@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MainLayout {
@@ -199,121 +198,7 @@ public class MainLayout {
 
         MainFrame.getContentPane().add(scroll);
 
-        initializePointActionListener();
-
         MainFrame.pack();
-    }
-
-    public static boolean isNumeric(String s) {
-        try {
-            double d = Double.parseDouble(s);
-        } catch (NumberFormatException nfe) {
-            return false;
-        }
-        return true;
-    }
-
-    public static boolean ifAnyPointFieldsNotNumber() {
-        return (!isNumeric(pointNumField.getText()) || !isNumeric(pointStartXField.getText()) || !isNumeric(pointEndXField.getText()) || !isNumeric(pointStartYField.getText()) || !isNumeric(pointEndYField.getText()));
-    }
-
-    /* General method to check if there are invalid inputs in panel's fields */
-    public static Integer invalidFields(JPanel panel) {
-        Component[] components = panel.getComponents();
-
-        for (Component component : components) {
-            if (component instanceof JTextField textField) {
-                String val = textField.getText();
-                if (val.isEmpty()) {
-                    // Returns status code 1 if there is an empty field
-                    return 1;
-                }
-                try {
-                    double d = Integer.parseInt(val);
-                } catch (NumberFormatException nfe) {
-                    // Returns status code 2 if there is a non-numeric value
-                    return 2;
-                }
-            }
-        }
-        // Returns null if no invalid field found
-        return null;
-    }
-
-    public static void initializePointActionListener() {
-        pointGenerateParticleButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Integer invalidResult = invalidFields(pointPanel);
-                if(invalidResult != null && invalidResult == 1) {
-                    JOptionPane.showMessageDialog(null, "Please fill in all fields");
-                }
-                else if (invalidResult != null && invalidResult == 2) {
-                    JOptionPane.showMessageDialog(null, "Please make sure you're only entering numbers.");
-                }
-                else {
-                    //Parsing Input
-                    int startX = Integer.parseInt(pointStartXField.getText());
-                    int endX = Integer.parseInt(pointEndXField.getText());
-                    int startY = 720 - Integer.parseInt(pointStartYField.getText());
-                    int endY = 720 - Integer.parseInt(pointEndYField.getText());
-                    int numParticles = Integer.parseInt(pointNumField.getText());
-
-                    System.out.println(startX);
-                    System.out.println(endX);
-                    System.out.println(startY);
-                    System.out.println(endY);
-
-                    //Get Distance from start and end
-                    int distanceX = Math.abs(startX - endX);
-                    int distanceY = Math.abs(startY - endY);
-
-                    //Get increment
-                    int incrementX = distanceX / (numParticles + 1);
-                    int incrementY = distanceY / (numParticles + 1);
-
-                    System.out.println(incrementX);
-                    System.out.println(incrementY);
-
-                    //Pointer starts at start
-                    int pointerX = startX + incrementX;
-                    int pointerY = startY - incrementY;
-
-                    //Apply threading here maybe? For now single threaded while testing
-                    for(int x = 0;x < numParticles;x++) {
-                        pointerX = Math.min(pointerX, 1270);
-                        pointerY = Math.min(pointerY, 710);
-
-                        particlePanel.addParticle(new Particle(pointerX, pointerY));
-                        System.out.println("X = " + pointerX);
-                        System.out.println("Y = " + pointerY);
-                        pointerX += incrementX;
-                        pointerY -= incrementY;
-                    }
-                }
-
-            }
-        });
-
-        wallGenerateWallButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Integer invalidResult = invalidFields(wallPanel);
-                if(invalidResult != null && invalidResult == 1) {
-                    JOptionPane.showMessageDialog(null, "Please fill in all fields");
-                }
-                else if (invalidResult != null && invalidResult == 2) {
-                    JOptionPane.showMessageDialog(null, "Please make sure you're only entering numbers.");
-                }
-                else {
-                    int startX = Integer.parseInt(wallStartXField.getText());
-                    int startY = 720 - Integer.parseInt(wallStartYField.getText());
-                    int endX = Integer.parseInt(wallEndXField.getText());
-                    int endY = 720 - Integer.parseInt(wallEndYField.getText());
-                    particlePanel.addWall(new Wall(startX, startY, endX, endY));
-                }
-            }
-        });
     }
 
     public static void newRow() {
@@ -322,19 +207,4 @@ public class MainLayout {
         MainPanel.add(spacerLabel);
     }
 
-    public static Timer createTimer(int t, ActionListener r) {
-        Timer tempTimer = new Timer(t, r);
-        tempTimer.setRepeats(false);
-        return tempTimer;
-    }
-
-
-    public static void main(String[] args) {
-
-
-        initializeGUI();
-
-        MainFrame.setVisible(true);
-
-    }
 }
