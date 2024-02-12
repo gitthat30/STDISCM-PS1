@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 
 public class MainLayout {
     static JFrame MainFrame = new JFrame();
@@ -30,7 +29,14 @@ public class MainLayout {
     static JTextField pointEndXField = new JTextField();
     static JLabel pointEndYText = new JLabel("End Y: ");
     static JTextField pointEndYField = new JTextField();
+
+    static JLabel pointVelocityText = new JLabel();
+    static JTextField pointVelocityField = new JTextField();
+
+    static JLabel pointAngleText = new JLabel();
+    static JTextField pointAngleField = new JTextField();
     static JButton pointGenerateParticleButton = new JButton("Generate Particle(s)");
+
 
     //Adding from angle
     static JPanel anglePanel = new JPanel();
@@ -41,7 +47,16 @@ public class MainLayout {
     static JTextField angleStartAngleField = new JTextField();
     static JLabel angleEndAngleText = new JLabel("End Angle: ");
     static JTextField angleEndAngleField = new JTextField();
+
+    static JLabel angleVelocityText = new JLabel();
+    static JTextField angleVelocityField = new JTextField();
+
+    static JLabel angleStartXText = new JLabel("Start X: ");
+    static JTextField angleStartXField = new JTextField();
+    static JLabel angleStartYText = new JLabel("Start Y: ");
+    static JTextField angleStartYField = new JTextField();
     static JButton angleGenerateParticleButton = new JButton("Generate Particle(s)");
+
 
     //Adding from Velocities
     static JPanel velocityPanel = new JPanel();
@@ -52,6 +67,14 @@ public class MainLayout {
     static JTextField velocityStartVelocityField = new JTextField();
     static JLabel velocityEndVelocityText = new JLabel("End Velocity: ");
     static JTextField velocityEndVelocityField = new JTextField();
+
+    static JLabel velocityAngleText = new JLabel();
+    static JTextField velocityAngleField = new JTextField();
+
+    static JLabel velocityStartXText = new JLabel("Start X: ");
+    static JTextField velocityStartXField = new JTextField();
+    static JLabel velocityStartYText = new JLabel("Start Y: ");
+    static JTextField velocityStartYField = new JTextField();
     static JButton velocityGenerateParticleButton = new JButton("Generate Particle(s)");
 
     //Adding Walls
@@ -89,6 +112,15 @@ public class MainLayout {
         anglePanel.add(angleEndAngleText);
         anglePanel.add(angleEndAngleField);
 
+        anglePanel.add(angleVelocityText);
+        anglePanel.add(angleVelocityField);
+
+        anglePanel.add(angleStartXText);
+        anglePanel.add(angleStartXField);
+
+        anglePanel.add(angleStartYText);
+        anglePanel.add(angleStartYField);
+
         addFiller(anglePanel);
         anglePanel.add(angleGenerateParticleButton);
     }
@@ -115,6 +147,12 @@ public class MainLayout {
         pointPanel.add(pointEndYText);
         pointPanel.add(pointEndYField);
 
+        pointPanel.add(pointAngleText);
+        pointPanel.add(pointAngleField);
+
+        pointPanel.add(pointVelocityText);
+        pointPanel.add(pointVelocityField);
+
         addFiller(pointPanel);
         pointPanel.add(pointGenerateParticleButton);
     }
@@ -134,6 +172,15 @@ public class MainLayout {
 
         velocityPanel.add(velocityEndVelocityText);
         velocityPanel.add(velocityEndVelocityField);
+
+        velocityPanel.add(velocityAngleText);
+        velocityPanel.add(velocityAngleField);
+
+        velocityPanel.add(velocityStartXText);
+        velocityPanel.add(velocityStartXField);
+
+        velocityPanel.add(velocityStartYText);
+        velocityPanel.add(velocityStartYField);
 
         addFiller(velocityPanel);
         velocityPanel.add(velocityGenerateParticleButton);

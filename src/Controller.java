@@ -9,11 +9,8 @@ public class Controller {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Integer invalidResult = invalidFields(MainLayout.pointPanel);
-                if(invalidResult != null && invalidResult == 1) {
-                    JOptionPane.showMessageDialog(null, "Please fill in all fields");
-                }
-                else if (invalidResult != null && invalidResult == 2) {
-                    JOptionPane.showMessageDialog(null, "Please make sure you're only entering numbers.");
+                if(invalidResult != null) {
+                    showErrorDialog(invalidResult);
                 }
                 else {
                     //Parsing Input
@@ -63,11 +60,8 @@ public class Controller {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Integer invalidResult = invalidFields(MainLayout.wallPanel);
-                if(invalidResult != null && invalidResult == 1) {
-                    JOptionPane.showMessageDialog(null, "Please fill in all fields");
-                }
-                else if (invalidResult != null && invalidResult == 2) {
-                    JOptionPane.showMessageDialog(null, "Please make sure you're only entering numbers.");
+                if(invalidResult != null) {
+                    showErrorDialog(invalidResult);
                 }
                 else {
                     int startX = Integer.parseInt(MainLayout.wallStartXField.getText());
@@ -102,6 +96,15 @@ public class Controller {
         // Returns null if no invalid field found
         return null;
     }
+    public static void showErrorDialog(Integer invalidResult) {
+        if(invalidResult != null && invalidResult == 1) {
+            JOptionPane.showMessageDialog(null, "Please fill in all fields");
+        }
+        else if (invalidResult != null && invalidResult == 2) {
+            JOptionPane.showMessageDialog(null, "Please make sure you're only entering numbers.");
+        }
+    }
+
 
     public static Timer createTimer(int t, ActionListener r) {
         Timer tempTimer = new Timer(t, r);
