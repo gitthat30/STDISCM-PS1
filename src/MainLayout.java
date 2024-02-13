@@ -10,7 +10,7 @@ public class MainLayout {
     static ParticleArea particlePanel = new ParticleArea();
 
     //This is where the JPanel containing the UI for adding particles is
-    static Dimension particlePanelDimension = new Dimension(300, 200);
+    static Dimension particlePanelDimension = new Dimension(250, 200);
 
     static JPanel particleGenerationContainer = new JPanel();
     static JLabel particleGenerationLabel = new JLabel("Particle Generation");
@@ -18,7 +18,6 @@ public class MainLayout {
     //Adding from point
     static JPanel pointPanel = new JPanel();
     static JLabel pointLabel = new JLabel("Create Particles between Start and End points");
-    static JLabel pointLabelFiller = new JLabel("");
     static JLabel pointNumText = new JLabel("Number of Particles");
     static JTextField pointNumField = new JTextField();
     static JLabel pointStartXText = new JLabel("Start X: ");
@@ -30,10 +29,10 @@ public class MainLayout {
     static JLabel pointEndYText = new JLabel("End Y: ");
     static JTextField pointEndYField = new JTextField();
 
-    static JLabel pointVelocityText = new JLabel();
+    static JLabel pointVelocityText = new JLabel("Enter Velocity: ");
     static JTextField pointVelocityField = new JTextField();
 
-    static JLabel pointAngleText = new JLabel();
+    static JLabel pointAngleText = new JLabel("Enter Angle: ");
     static JTextField pointAngleField = new JTextField();
     static JButton pointGenerateParticleButton = new JButton("Generate Particle(s)");
 
@@ -115,18 +114,12 @@ public class MainLayout {
         anglePanel.add(angleVelocityText);
         anglePanel.add(angleVelocityField);
 
-        anglePanel.add(angleStartXText);
-        anglePanel.add(angleStartXField);
-
-        anglePanel.add(angleStartYText);
-        anglePanel.add(angleStartYField);
-
         addFiller(anglePanel);
         anglePanel.add(angleGenerateParticleButton);
     }
 
     public static void initializePointPanel() {
-        pointPanel.setLayout(new GridLayout(7, 2));
+        pointPanel.setLayout(new GridLayout(9, 2));
         pointPanel.setPreferredSize(new Dimension(particlePanelDimension));
 
         pointPanel.add(pointLabel);
@@ -147,11 +140,11 @@ public class MainLayout {
         pointPanel.add(pointEndYText);
         pointPanel.add(pointEndYField);
 
-        pointPanel.add(pointAngleText);
-        pointPanel.add(pointAngleField);
-
         pointPanel.add(pointVelocityText);
         pointPanel.add(pointVelocityField);
+
+        pointPanel.add(pointAngleText);
+        pointPanel.add(pointAngleField);
 
         addFiller(pointPanel);
         pointPanel.add(pointGenerateParticleButton);
@@ -175,12 +168,6 @@ public class MainLayout {
 
         velocityPanel.add(velocityAngleText);
         velocityPanel.add(velocityAngleField);
-
-        velocityPanel.add(velocityStartXText);
-        velocityPanel.add(velocityStartXField);
-
-        velocityPanel.add(velocityStartYText);
-        velocityPanel.add(velocityStartYField);
 
         addFiller(velocityPanel);
         velocityPanel.add(velocityGenerateParticleButton);
@@ -229,6 +216,7 @@ public class MainLayout {
         particleGenerationContainer.add(pointPanel);
         particleGenerationContainer.add(anglePanel);
         particleGenerationContainer.add(velocityPanel);
+
 
         MainPanel.add(particleGenerationLabel);
         newRow();

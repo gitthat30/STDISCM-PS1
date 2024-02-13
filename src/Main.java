@@ -7,7 +7,6 @@ public class Main {
     public static LinkedBlockingQueue<Command> commandQueue = new LinkedBlockingQueue<>();
     public static ExecutorService executorService = Executors.newFixedThreadPool(THREAD_COUNT);
 
-    public static boolean ready;
     public static void main(String[] args) throws InterruptedException {
         RenderRunnable renderRunnable = new RenderRunnable();
         Thread renderThread = new Thread(renderRunnable);
@@ -17,10 +16,6 @@ public class Main {
         MainLayout.initializeGUI();
         MainLayout.MainFrame.setVisible(true);
 
-        executorService.execute(new WorkerRunnable(commandQueue.take()));
-        System.out.println("oki na");
-
-        // idk if this is ok
         while(true) {
             executorService.execute(new WorkerRunnable(commandQueue.take()));
         }

@@ -15,6 +15,13 @@ public class WorkerRunnable implements Runnable {
 
     // TODO: do computation for next position and add to commandQueue
     private void updateParticlePosition() {
+        //First get the next position
+
+        //Check if next position is either: Past the border or hits a wall
+
+        //If no border or wall, update position
+
+        //Else if wall or border, bounce off the wall using angle of reflection.
 
     }
 
