@@ -1,13 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ParticleArea extends JPanel {
-    int startX;
-    int startY;
-    boolean test;
-    ArrayList<Particle> particleList = new ArrayList<>();
-    ArrayList<Wall> wallList = new ArrayList<>();
+    CopyOnWriteArrayList<Particle> particleList = new CopyOnWriteArrayList<>();
+    CopyOnWriteArrayList<Wall> wallList = new CopyOnWriteArrayList<>();
 
 
     ParticleArea() {

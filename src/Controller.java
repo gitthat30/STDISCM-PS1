@@ -73,6 +73,7 @@ public class Controller {
                     int endY = 720 - Integer.parseInt(MainLayout.wallEndYField.getText());
 
                     Main.commandQueue.add(new Command(CommandType.GENERATE_WALL, startX, startY, endX, endY));
+                    System.out.println("ADDING GENERATE_WALL COMMAND");
                 }
             }
         });
@@ -107,13 +108,6 @@ public class Controller {
         else if (invalidResult == InvalidType.NON_NUMERIC) {
             JOptionPane.showMessageDialog(null, "Please make sure you're only entering numbers.");
         }
-    }
-
-
-    public static Timer createTimer(int t, ActionListener r) {
-        Timer tempTimer = new Timer(t, r);
-        tempTimer.setRepeats(false);
-        return tempTimer;
     }
 }
 
