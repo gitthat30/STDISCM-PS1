@@ -19,6 +19,8 @@ public class Controller {
                     int startY = 720 - Integer.parseInt(MainLayout.pointStartYField.getText());
                     int endY = 720 - Integer.parseInt(MainLayout.pointEndYField.getText());
                     int numParticles = Integer.parseInt(MainLayout.pointNumField.getText());
+                    int velocity = Integer.parseInt(MainLayout.pointVelocityField.getText());
+                    int angle = Integer.parseInt(MainLayout.pointAngleField.getText());
 
                     System.out.println(startX);
                     System.out.println(endX);
@@ -45,7 +47,7 @@ public class Controller {
                         pointerX = Math.min(pointerX, 1270);
                         pointerY = Math.min(pointerY, 710);
 
-                        MainLayout.particlePanel.addParticle(new Particle(pointerX, pointerY));
+                        MainLayout.particlePanel.addParticle(new Particle(pointerX, pointerY, velocity, angle));
                         System.out.println("X = " + pointerX);
                         System.out.println("Y = " + pointerY);
                         pointerX += incrementX;

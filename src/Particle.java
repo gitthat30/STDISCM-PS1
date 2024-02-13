@@ -1,10 +1,14 @@
 public class Particle {
     int x;
     int y;
+    int velocity;
+    int angle;
 
-    Particle(int x, int y) {
+    Particle(int x, int y, int velocity, int angle) {
         this.x = x;
         this.y = y;
+        this.velocity = velocity;
+        this.angle = angle;
     }
 
     public void setX(int x) {
