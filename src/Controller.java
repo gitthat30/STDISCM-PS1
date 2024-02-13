@@ -8,7 +8,7 @@ public class Controller {
         MainLayout.pointGenerateParticleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Integer invalidResult = invalidFields(MainLayout.pointPanel);
+                InvalidType invalidResult = invalidFields(MainLayout.pointPanel);
                 if(invalidResult != null) {
                     showErrorDialog(invalidResult);
                 }
@@ -47,7 +47,8 @@ public class Controller {
                         pointerX = Math.min(pointerX, 1270);
                         pointerY = Math.min(pointerY, 710);
 
-                        MainLayout.particlePanel.addParticle(new Particle(pointerX, pointerY, velocity, angle));
+                        Main.commandQueue.add(new Command(CommandType.GENERATE_PARTICLE, pointerX, pointerY, velocity, angle));
+
                         System.out.println("X = " + pointerX);
                         System.out.println("Y = " + pointerY);
                         pointerX += incrementX;
@@ -61,7 +62,7 @@ public class Controller {
         MainLayout.wallGenerateWallButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Integer invalidResult = invalidFields(MainLayout.wallPanel);
+                InvalidType invalidResult = invalidFields(MainLayout.wallPanel);
                 if(invalidResult != null) {
                     showErrorDialog(invalidResult);
                 }
@@ -70,14 +71,15 @@ public class Controller {
                     int startY = 720 - Integer.parseInt(MainLayout.wallStartYField.getText());
                     int endX = Integer.parseInt(MainLayout.wallEndXField.getText());
                     int endY = 720 - Integer.parseInt(MainLayout.wallEndYField.getText());
-                    MainLayout.particlePanel.addWall(new Wall(startX, startY, endX, endY));
+
+                    Main.commandQueue.add(new Command(CommandType.GENERATE_WALL, startX, startY, endX, endY));
                 }
             }
         });
     }
 
     /* General method to check if there are invalid inputs in panel's fields */
-    public static Integer invalidFields(JPanel panel) {
+    public static InvalidType invalidFields(JPanel panel) {
         Component[] components = panel.getComponents();
 
         for (Component component : components) {
@@ -85,24 +87,24 @@ public class Controller {
                 String val = textField.getText();
                 if (val.isEmpty()) {
                     // Returns status code 1 if there is an empty field
-                    return 1;
+                    return InvalidType.EMPTY_FIELD;
                 }
                 try {
                     double d = Integer.parseInt(val);
                 } catch (NumberFormatException nfe) {
                     // Returns status code 2 if there is a non-numeric value
-                    return 2;
+                    return InvalidType.NON_NUMERIC;
                 }
             }
         }
         // Returns null if no invalid field found
         return null;
     }
-    public static void showErrorDialog(Integer invalidResult) {
-        if(invalidResult != null && invalidResult == 1) {
+    public static void showErrorDialog(InvalidType invalidResult) {
+        if(invalidResult == InvalidType.EMPTY_FIELD) {
             JOptionPane.showMessageDialog(null, "Please fill in all fields");
         }
-        else if (invalidResult != null && invalidResult == 2) {
+        else if (invalidResult == InvalidType.NON_NUMERIC) {
             JOptionPane.showMessageDialog(null, "Please make sure you're only entering numbers.");
         }
     }
@@ -113,4 +115,9 @@ public class Controller {
         tempTimer.setRepeats(false);
         return tempTimer;
     }
+}
+
+enum InvalidType {
+    EMPTY_FIELD,
+    NON_NUMERIC
 }
