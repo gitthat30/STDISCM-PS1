@@ -14,13 +14,13 @@ public class Controller {
                 }
                 else {
                     //Parsing Input
-                    int startX = Integer.parseInt(MainLayout.pointStartXField.getText());
-                    int endX = Integer.parseInt(MainLayout.pointEndXField.getText());
-                    int startY = 720 - Integer.parseInt(MainLayout.pointStartYField.getText());
-                    int endY = 720 - Integer.parseInt(MainLayout.pointEndYField.getText());
+                    Double startX = Double.parseDouble(MainLayout.pointStartXField.getText());
+                    Double endX = Double.parseDouble(MainLayout.pointEndXField.getText());
+                    Double startY = 720 - Double.parseDouble(MainLayout.pointStartYField.getText());
+                    Double endY = 720 - Double.parseDouble(MainLayout.pointEndYField.getText());
                     int numParticles = Integer.parseInt(MainLayout.pointNumField.getText());
-                    int velocity = Integer.parseInt(MainLayout.pointVelocityField.getText());
-                    int angle = Integer.parseInt(MainLayout.pointAngleField.getText());
+                    Double velocity = Double.parseDouble(MainLayout.pointVelocityField.getText());
+                    Double angle = Double.parseDouble(MainLayout.pointAngleField.getText());
 
                     System.out.println(startX);
                     System.out.println(endX);
@@ -28,19 +28,19 @@ public class Controller {
                     System.out.println(endY);
 
                     //Get Distance from start and end
-                    int distanceX = Math.abs(startX - endX);
-                    int distanceY = Math.abs(startY - endY);
+                    Double distanceX = Math.abs(startX - endX);
+                    Double distanceY = Math.abs(startY - endY);
 
                     //Get increment
-                    int incrementX = distanceX / (numParticles + 1);
-                    int incrementY = distanceY / (numParticles + 1);
+                    Double incrementX = distanceX / (numParticles + 1);
+                    Double incrementY = distanceY / (numParticles + 1);
 
                     System.out.println(incrementX);
                     System.out.println(incrementY);
 
                     //Pointer starts at start
-                    int pointerX = startX + incrementX;
-                    int pointerY = startY - incrementY;
+                    Double pointerX = startX + incrementX;
+                    Double pointerY = startY - incrementY;
 
                     //Apply threading here maybe? For now single threaded while testing
                     for(int x = 0;x < numParticles;x++) {

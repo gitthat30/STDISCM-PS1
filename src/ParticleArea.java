@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ParticleArea extends JPanel {
-    CopyOnWriteArrayList<Particle> particleList = new CopyOnWriteArrayList<>();
-    CopyOnWriteArrayList<Wall> wallList = new CopyOnWriteArrayList<>();
+    static CopyOnWriteArrayList<Particle> particleList = new CopyOnWriteArrayList<>();
+    static CopyOnWriteArrayList<Wall> wallList = new CopyOnWriteArrayList<>();
 
 
     ParticleArea() {
@@ -16,31 +16,35 @@ public class ParticleArea extends JPanel {
 
     public void addParticle(Particle p) {
         particleList.add(p);
-        repaint();
     }
 
     public void addWall(Wall w) {
         wallList.add(w);
-        repaint();
     }
 
-    public void changeParticleLocation(int index, int x, int y) {
-        particleList.get(index).setX(x);
-        particleList.get(index).setY(y);
+    public void changeParticleLocation(int index, Double x, Double y) {
+        particleList.get(index).moveParticle(x, y);;
 
+    }
+
+    public void paintOval(Graphics g, Particle p) {
+        g.drawOval(p.x.intValue(), p.y.intValue(), 9, 9);
     }
 
     public void paint(Graphics g) {
         super.paint(g);
         this.setBackground(Color.WHITE);
+        //start timer
         for (Particle p : particleList) {
-            System.out.println(p);
-            g.drawOval(p.x, p.y, 9, 9);
+            g.drawOval(p.x.intValue(), p.y.intValue(), 9, 9);
         }
 
         for (Wall w : wallList) {
+            System.out.println(w);
             g.drawLine(w.getX1(), w.getY1(), w.getX2(), w.getY2());
         }
+
+        //end timer
     }
 }
 

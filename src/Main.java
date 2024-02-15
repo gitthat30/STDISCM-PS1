@@ -3,7 +3,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class Main {
-    static final int THREAD_COUNT = 8;
+    static final int THREAD_COUNT = 128;
     public static LinkedBlockingQueue<Command> commandQueue = new LinkedBlockingQueue<>();
     public static ExecutorService executorService = Executors.newFixedThreadPool(THREAD_COUNT);
 

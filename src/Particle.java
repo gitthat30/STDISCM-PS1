@@ -1,21 +1,26 @@
 public class Particle {
-    int x;
-    int y;
-    int velocity;
-    int angle;
+    Double x;
+    Double y;
+    Double velocity;
+    Double angle;
 
-    Particle(int x, int y, int velocity, int angle) {
+    Particle(Double x, Double y, Double velocity, Double angle) {
         this.x = x;
         this.y = y;
         this.velocity = velocity;
         this.angle = angle;
     }
 
-    public void setX(int x) {
+    public void moveParticle(Double nx, Double ny) {
+        this.x = nx;
+        this.y = ny;
+    }
+
+    public void setX(Double x) {
         this.x = x;
     }
 
-    public void setY(int y) {
+    public void setY(Double y) {
         this.y = y;
     }
 }
