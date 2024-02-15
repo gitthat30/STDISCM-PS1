@@ -14,23 +14,6 @@ public class ParticleArea extends JPanel {
         this.setBackground(Color.WHITE);
     }
 
-    public void addParticle(Particle p) {
-        particleList.add(p);
-    }
-
-    public void addWall(Wall w) {
-        wallList.add(w);
-    }
-
-    public void changeParticleLocation(int index, Double x, Double y) {
-        particleList.get(index).moveParticle(x, y);;
-
-    }
-
-    public void paintOval(Graphics g, Particle p) {
-        g.drawOval(p.x.intValue(), p.y.intValue(), 9, 9);
-    }
-
     public void paint(Graphics g) {
         super.paint(g);
         this.setBackground(Color.WHITE);

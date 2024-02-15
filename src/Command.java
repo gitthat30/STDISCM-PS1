@@ -19,8 +19,8 @@ public class Command {
     }
 
     /* Constructor for generating particle */
-    Command(CommandType type, Double a, Double b, Double c, Double d) {
-        this.type = type;
+    Command(Double a, Double b, Double c, Double d) {
+        this.type = CommandType.GENERATE_PARTICLE;
 
         this.x = a;
         this.y = b;
@@ -29,8 +29,8 @@ public class Command {
     }
 
     /* Constructor for generating wall */
-    Command(CommandType type, int a, int b, int c, int d) {
-        this.type = type;
+    Command(int a, int b, int c, int d) {
+        this.type = CommandType.GENERATE_WALL;
 
         this.x1 = a;
         this.y1 = b;

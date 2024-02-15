@@ -28,8 +28,8 @@ public class Controller {
                     System.out.println(endY);
 
                     //Get Distance from start and end
-                    Double distanceX = Math.abs(startX - endX);
-                    Double distanceY = Math.abs(startY - endY);
+                    double distanceX = Math.abs(startX - endX);
+                    double distanceY = Math.abs(startY - endY);
 
                     //Get increment
                     Double incrementX = distanceX / (numParticles + 1);
@@ -39,15 +39,15 @@ public class Controller {
                     System.out.println(incrementY);
 
                     //Pointer starts at start
-                    Double pointerX = startX + incrementX;
-                    Double pointerY = startY - incrementY;
+                    double pointerX = startX + incrementX;
+                    double pointerY = startY - incrementY;
 
                     //Apply threading here maybe? For now single threaded while testing
                     for(int x = 0;x < numParticles;x++) {
                         pointerX = Math.min(pointerX, 1270);
                         pointerY = Math.min(pointerY, 710);
 
-                        Main.commandQueue.add(new Command(CommandType.GENERATE_PARTICLE, pointerX, pointerY, velocity, angle));
+                        Main.commandQueue.add(new Command(pointerX, pointerY, velocity, angle));
 
                         System.out.println("X = " + pointerX);
                         System.out.println("Y = " + pointerY);
@@ -72,7 +72,7 @@ public class Controller {
                     int endX = Integer.parseInt(MainLayout.wallEndXField.getText());
                     int endY = 720 - Integer.parseInt(MainLayout.wallEndYField.getText());
 
-                    Main.commandQueue.add(new Command(CommandType.GENERATE_WALL, startX, startY, endX, endY));
+                    Main.commandQueue.add(new Command(startX, startY, endX, endY));
                     System.out.println("ADDING GENERATE_WALL COMMAND");
                 }
             }

@@ -17,12 +17,11 @@ public class WorkerRunnable implements Runnable {
     private void updateParticlePosition(Particle p) {
         //First get the velocity
         System.out.println(Math.toRadians(command.angle));
-        Double xvelocity = Math.cos(Math.toRadians(command.angle)) * command.velocity;
-        Double yvelocity = Math.sin(Math.toRadians(command.angle)) * command.velocity;
-        System.out.printf("velocity %f %f\n", Math.ceil(xvelocity), yvelocity);
+        Double xVelocity = Math.cos(Math.toRadians(command.angle)) * command.velocity;
+        Double yVelocity = Math.sin(Math.toRadians(command.angle)) * command.velocity;
         //Get next positions
-        Double newX = p.x + xvelocity;
-        Double newY = p.y - yvelocity;
+        double newX = p.x + xVelocity;
+        double newY = p.y - yVelocity;
 
         //Check if next position is either: Past the border or hits a wall
         boolean bounceFlag = false;
@@ -85,11 +84,6 @@ public class WorkerRunnable implements Runnable {
         
         //Move the particle
         p.moveParticle(newX, newY);
-        System.out.printf("Moved %f %f\n", newX, newY);
-
-        
-
-        
 
         //If no border or wall, update position
 
@@ -101,11 +95,11 @@ public class WorkerRunnable implements Runnable {
 
     private void generateParticle() {
         Particle temp = new Particle(command.x, command.y, command.velocity, command.angle);
-        MainLayout.particlePanel.particleList.add(temp);
+        ParticleArea.particleList.add(temp);
         Main.commandQueue.add(new Command(temp, command.velocity, command.angle));
     }
 
     private void generateWall() {
-        MainLayout.particlePanel.wallList.add(new Wall(command.x1, command.y1, command.x2, command.y2));
+        ParticleArea.wallList.add(new Wall(command.x1, command.y1, command.x2, command.y2));
     }
 }
