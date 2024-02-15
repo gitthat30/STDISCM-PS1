@@ -5,65 +5,103 @@ import java.awt.event.ActionListener;
 
 public class Controller {
     public static void initializeActionListeners() {
-        MainLayout.pointGenerateParticleButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                InvalidType invalidResult = invalidFields(MainLayout.pointPanel);
-                if(invalidResult != null) {
-                    showErrorDialog(invalidResult);
+        MainLayout.pointGenerateParticleButton.addActionListener(e -> {
+            InvalidType invalidResult = invalidFields(MainLayout.pointPanel);
+            if(invalidResult != null) {
+                showErrorDialog(invalidResult);
+            }
+            else {
+                //Parsing Input
+                double startX = Double.parseDouble(MainLayout.pointStartXField.getText());
+                double endX = Double.parseDouble(MainLayout.pointEndXField.getText());
+                double startY = 720 - Double.parseDouble(MainLayout.pointStartYField.getText());
+                double endY = 720 - Double.parseDouble(MainLayout.pointEndYField.getText());
+                int numParticles = Integer.parseInt(MainLayout.pointNumField.getText());
+                Double velocity = Double.parseDouble(MainLayout.pointVelocityField.getText());
+                Double angle = Double.parseDouble(MainLayout.pointAngleField.getText());
+
+                //Get Distance from start and end
+                double distanceX = Math.abs(startX - endX);
+                double distanceY = Math.abs(startY - endY);
+
+                //Get increment
+                double incrementX = distanceX / (numParticles + 1);
+                double incrementY = distanceY / (numParticles + 1);
+
+                //Pointer starts at start
+                double pointerX = startX + incrementX;
+                double pointerY = startY - incrementY;
+
+                for(int x = 0;x < numParticles;x++) {
+                    pointerX = Math.min(pointerX, 1270);
+                    pointerY = Math.min(pointerY, 710);
+
+                    Main.commandQueue.add(new Command(pointerX, pointerY, velocity, angle));
+
+                    pointerX += incrementX;
+                    pointerY -= incrementY;
                 }
-                else {
-                    //Parsing Input
-                    Double startX = Double.parseDouble(MainLayout.pointStartXField.getText());
-                    Double endX = Double.parseDouble(MainLayout.pointEndXField.getText());
-                    Double startY = 720 - Double.parseDouble(MainLayout.pointStartYField.getText());
-                    Double endY = 720 - Double.parseDouble(MainLayout.pointEndYField.getText());
-                    int numParticles = Integer.parseInt(MainLayout.pointNumField.getText());
-                    Double velocity = Double.parseDouble(MainLayout.pointVelocityField.getText());
-                    Double angle = Double.parseDouble(MainLayout.pointAngleField.getText());
+            }
 
-                    //Get Distance from start and end
-                    double distanceX = Math.abs(startX - endX);
-                    double distanceY = Math.abs(startY - endY);
+        });
 
-                    //Get increment
-                    double incrementX = distanceX / (numParticles + 1);
-                    double incrementY = distanceY / (numParticles + 1);
+        MainLayout.angleGenerateParticleButton.addActionListener(e -> {
+            InvalidType invalidResult = invalidFields(MainLayout.anglePanel);
+            if(invalidResult != null) {
+                showErrorDialog(invalidResult);
+            }
+            else {
+                double angleStart = Double.parseDouble(MainLayout.angleStartAngleField.getText());
+                double angleEnd = Double.parseDouble(MainLayout.angleEndAngleField.getText());
+                double x = Double.parseDouble(MainLayout.angleStartXField.getText());
+                double y = 720 - Double.parseDouble(MainLayout.angleStartYField.getText());
+                double velocity = Double.parseDouble(MainLayout.angleVelocityField.getText());
 
-                    //Pointer starts at start
-                    double pointerX = startX + incrementX;
-                    double pointerY = startY - incrementY;
+                int numParticles = Integer.parseInt(MainLayout.angleNumField.getText());
+                double increment = (angleEnd - angleStart) / numParticles;
 
-                    //Apply threading here maybe? For now single threaded while testing
-                    for(int x = 0;x < numParticles;x++) {
-                        pointerX = Math.min(pointerX, 1270);
-                        pointerY = Math.min(pointerY, 710);
-
-                        Main.commandQueue.add(new Command(pointerX, pointerY, velocity, angle));
-
-                        pointerX += incrementX;
-                        pointerY -= incrementY;
-                    }
+                for(int i = 0; i < numParticles; i++) {
+                    double newAngle = angleStart + (i * increment);
+                    Main.commandQueue.add(new Command(x, y, velocity, newAngle));
                 }
-
             }
         });
 
-        MainLayout.wallGenerateWallButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                InvalidType invalidResult = invalidFields(MainLayout.wallPanel);
-                if(invalidResult != null) {
-                    showErrorDialog(invalidResult);
-                }
-                else {
-                    int startX = Integer.parseInt(MainLayout.wallStartXField.getText());
-                    int startY = 720 - Integer.parseInt(MainLayout.wallStartYField.getText());
-                    int endX = Integer.parseInt(MainLayout.wallEndXField.getText());
-                    int endY = 720 - Integer.parseInt(MainLayout.wallEndYField.getText());
+        MainLayout.velocityGenerateParticleButton.addActionListener(e -> {
+            InvalidType invalidResult = invalidFields(MainLayout.velocityPanel);
+            if(invalidResult != null) {
+                showErrorDialog(invalidResult);
+            }
+            else {
+                double velocityStart = Double.parseDouble(MainLayout.velocityStartVelocityField.getText());
+                double velocityEnd = Double.parseDouble(MainLayout.velocityEndVelocityField.getText());
+                double x = Double.parseDouble(MainLayout.velocityStartXField.getText());
+                double y = 720 - Double.parseDouble(MainLayout.velocityStartYField.getText());
+                double angle = Double.parseDouble(MainLayout.velocityAngleField.getText());
 
-                    Main.commandQueue.add(new Command(startX, startY, endX, endY));
+                int numParticles = Integer.parseInt(MainLayout.velocityNumField.getText());
+                double increment = (velocityEnd - velocityStart) / numParticles;
+
+                for(int i = 0; i < numParticles; i++) {
+                    double newVelocity = velocityStart + (i * increment);
+                    System.out.println(newVelocity);
+                    Main.commandQueue.add(new Command(x, y, newVelocity, angle));
                 }
+            }
+        });
+
+        MainLayout.wallGenerateWallButton.addActionListener(e -> {
+            InvalidType invalidResult = invalidFields(MainLayout.wallPanel);
+            if(invalidResult != null) {
+                showErrorDialog(invalidResult);
+            }
+            else {
+                int startX = Integer.parseInt(MainLayout.wallStartXField.getText());
+                int startY = 720 - Integer.parseInt(MainLayout.wallStartYField.getText());
+                int endX = Integer.parseInt(MainLayout.wallEndXField.getText());
+                int endY = 720 - Integer.parseInt(MainLayout.wallEndYField.getText());
+
+                Main.commandQueue.add(new Command(startX, startY, endX, endY));
             }
         });
     }

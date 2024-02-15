@@ -60,7 +60,6 @@ public class ParticleArea extends JPanel {
                     e.printStackTrace();
                 }
             }
-            System.out.println("OK NA FINISHED REPAINTING; ALL THREADS JOINED");
         }
         //end timer
     }
@@ -87,17 +86,13 @@ class DrawRunnable implements Runnable {
 }
 
 class RenderRunnable implements Runnable {
-
     @Override
     public void run() {
-//        Timer timer = new Timer((0), e -> {
-//            MainLayout.particlePanel.repaint();
-//        });
-//
-//        timer.start();
-        while (true) {
+        Timer timer = new Timer((0), e -> {
             MainLayout.particlePanel.repaint();
+        });
 
-        }
+        timer.start();
     }
 }
+

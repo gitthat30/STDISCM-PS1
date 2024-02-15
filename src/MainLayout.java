@@ -6,6 +6,9 @@ public class MainLayout {
 
     static JPanel MainPanel = new JPanel();
 
+    static JLabel fpsLabel = new JLabel("FPS: ");
+    static JLabel fpsValue = new JLabel("0");
+
     //Panels
     static ParticleArea particlePanel = new ParticleArea();
 
@@ -96,7 +99,7 @@ public class MainLayout {
     }
 
     public static void initializeAnglePanel() {
-        anglePanel.setLayout(new GridLayout(7, 2));
+        anglePanel.setLayout(new GridLayout(9, 2));
         anglePanel.setPreferredSize(particlePanelDimension);
 
         anglePanel.add(angleLabel);
@@ -111,7 +114,13 @@ public class MainLayout {
         anglePanel.add(angleEndAngleText);
         anglePanel.add(angleEndAngleField);
 
-        anglePanel.add(angleVelocityText);
+        anglePanel.add(angleStartXText);
+        anglePanel.add(angleStartXField);
+
+        anglePanel.add(angleStartYText);
+        anglePanel.add(angleStartYField);
+
+        anglePanel.add(angleVelocityText); // MISSING
         anglePanel.add(angleVelocityField);
 
         addFiller(anglePanel);
@@ -151,7 +160,7 @@ public class MainLayout {
     }
 
     public static void initializeVelocityPanel() {
-        velocityPanel.setLayout(new GridLayout(7, 2));
+        velocityPanel.setLayout(new GridLayout(9, 2));
         velocityPanel.setPreferredSize(new Dimension(particlePanelDimension));
 
         velocityPanel.add(velocityLabel);
@@ -166,7 +175,13 @@ public class MainLayout {
         velocityPanel.add(velocityEndVelocityText);
         velocityPanel.add(velocityEndVelocityField);
 
-        velocityPanel.add(velocityAngleText);
+        velocityPanel.add(velocityStartXText);
+        velocityPanel.add(velocityStartXField);
+
+        velocityPanel.add(velocityStartYText);
+        velocityPanel.add(velocityStartYField);
+
+        velocityPanel.add(velocityAngleText); // MISSING
         velocityPanel.add(velocityAngleField);
 
         addFiller(velocityPanel);
@@ -198,6 +213,10 @@ public class MainLayout {
         MainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         MainPanel.setPreferredSize(new Dimension(1920,1080));
         MainPanel.setLayout(new FlowLayout());
+
+        MainPanel.add(fpsLabel);
+        MainPanel.add(fpsValue);
+        newRow();
 
         MainPanel.add(particlePanel);
         particlePanel.setPreferredSize(new Dimension(1280,720));
