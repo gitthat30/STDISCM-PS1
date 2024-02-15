@@ -58,10 +58,10 @@ public class Controller {
                 double velocity = Double.parseDouble(MainLayout.angleVelocityField.getText());
 
                 int numParticles = Integer.parseInt(MainLayout.angleNumField.getText());
-                double increment = (angleEnd - angleStart) / numParticles;
+                double increment = Math.abs(angleEnd - angleStart) / numParticles;
 
                 for(int i = 0; i < numParticles; i++) {
-                    double newAngle = angleStart + (i * increment);
+                    double newAngle = angleStart + (i * increment* (angleEnd < 0 ? -1 : 1));
                     Main.commandQueue.add(new Command(x, y, velocity, newAngle));
                 }
             }
@@ -80,10 +80,10 @@ public class Controller {
                 double angle = Double.parseDouble(MainLayout.velocityAngleField.getText());
 
                 int numParticles = Integer.parseInt(MainLayout.velocityNumField.getText());
-                double increment = (velocityEnd - velocityStart) / numParticles;
+                double increment = Math.abs(velocityEnd - velocityStart) / numParticles;
 
                 for(int i = 0; i < numParticles; i++) {
-                    double newVelocity = velocityStart + (i * increment);
+                    double newVelocity = velocityStart + (i * increment * (velocityEnd < 0 ? -1 : 1));
                     System.out.println(newVelocity);
                     Main.commandQueue.add(new Command(x, y, newVelocity, angle));
                 }
