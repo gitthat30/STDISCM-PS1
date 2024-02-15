@@ -50,7 +50,7 @@ public class MainLayout {
     static JLabel angleEndAngleText = new JLabel("End Angle: ");
     static JTextField angleEndAngleField = new JTextField();
 
-    static JLabel angleVelocityText = new JLabel();
+    static JLabel angleVelocityText = new JLabel("Enter Velocity: ");
     static JTextField angleVelocityField = new JTextField();
 
     static JLabel angleStartXText = new JLabel("Start X: ");
@@ -71,7 +71,7 @@ public class MainLayout {
     static JTextField velocityEndVelocityField = new JTextField();
 
     static JLabel velocityAngleText = new JLabel();
-    static JTextField velocityAngleField = new JTextField();
+    static JTextField velocityAngleField = new JTextField("Enter Angle: ");
 
     static JLabel velocityStartXText = new JLabel("Start X: ");
     static JTextField velocityStartXField = new JTextField();
@@ -181,7 +181,7 @@ public class MainLayout {
         velocityPanel.add(velocityStartYText);
         velocityPanel.add(velocityStartYField);
 
-        velocityPanel.add(velocityAngleText); // MISSING
+        velocityPanel.add(velocityAngleText);
         velocityPanel.add(velocityAngleField);
 
         addFiller(velocityPanel);

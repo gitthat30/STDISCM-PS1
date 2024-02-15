@@ -20,13 +20,6 @@ public class ParticleArea extends JPanel {
     public void paint(Graphics g) {
         super.paint(g);
         this.setBackground(Color.WHITE);
-        for (Particle p : particleList) {
-            g.drawOval(p.x.intValue(), p.y.intValue(), 9, 9);
-        }
-
-        for (Wall w : wallList) {
-            g.drawLine(w.getX1(), w.getY1(), w.getX2(), w.getY2());
-        }
 
         int size = particleList.size();
         if(size > 0) {
@@ -37,6 +30,8 @@ public class ParticleArea extends JPanel {
             if(numPerThread < 1) {
                 numPerThread = 1;
             }
+
+            THREAD_COUNT = Math.min(THREAD_COUNT, size);
 
             for (int i = 0; i < THREAD_COUNT; i++) {
                 Thread t = new Thread(new DrawRunnable(tempStart, tempEnd, g));
@@ -52,6 +47,10 @@ public class ParticleArea extends JPanel {
                     tempEnd += numPerThread;
             }
 
+            for (Wall w : wallList) {
+                g.drawLine(w.getX1(), w.getY1(), w.getX2(), w.getY2());
+            }
+
             for(Thread t : drawThreadList) {
                 try {
                     t.join();
@@ -59,6 +58,8 @@ public class ParticleArea extends JPanel {
                     e.printStackTrace();
                 }
             }
+
+            RenderRunnable.frames++;
 
             drawThreadList.clear();
         }
@@ -80,16 +81,13 @@ class DrawRunnable implements Runnable {
     public void run() {
         for(int i = start; i <= end; i++) {
             Particle p = ParticleArea.particleList.get(i);
-            synchronized (g) {
-                g.drawOval(p.x.intValue(), p.y.intValue(), 9, 9);
-            }
-
+            g.drawOval(p.x.intValue(), p.y.intValue(), 9, 9);
         }
     }
 }
 
 class RenderRunnable implements Runnable {
-    int frames = 0;
+    static int frames = 0;
     double fps = 0;
     @Override
     public void run() {
@@ -97,8 +95,7 @@ class RenderRunnable implements Runnable {
         Timer timer = new Timer((0), e -> {
             SwingUtilities.invokeLater(() -> {
                 MainLayout.particlePanel.repaint();
-                frames++;
-                System.out.println(frames);
+                System.out.println(System.currentTimeMillis() + "  " + frames);
             });
         });
 
@@ -107,17 +104,13 @@ class RenderRunnable implements Runnable {
 
     // i have no idea what im doing
     private void runTimers() {
-        Timer timer = new Timer(1000, e ->{
-            fps = frames / 1000.0;
+        Timer timer = new Timer(500, e ->{
+            fps = frames * 2;
+            MainLayout.fpsValue.setText(String.valueOf(fps));
             frames = 0;
         });
 
         timer.start();
-
-        Timer displayTimer = new Timer(500, e -> {
-            MainLayout.fpsValue.setText(String.valueOf(fps));
-        });
-        displayTimer.start();
 
     }
 }
