@@ -8,8 +8,7 @@ public class ParticleArea extends JPanel {
     static CopyOnWriteArrayList<Wall> wallList = new CopyOnWriteArrayList<>();
 
     int THREAD_COUNT = 8;
-
-    static ArrayList<Thread> drawThreadList = new ArrayList<>();
+    ArrayList<Thread> drawThreadList = new ArrayList<>();
 
 
     ParticleArea() {
@@ -21,7 +20,6 @@ public class ParticleArea extends JPanel {
     public void paint(Graphics g) {
         super.paint(g);
         this.setBackground(Color.WHITE);
-        //start timer
         for (Particle p : particleList) {
             g.drawOval(p.x.intValue(), p.y.intValue(), 9, 9);
         }
@@ -41,8 +39,9 @@ public class ParticleArea extends JPanel {
             }
 
             for (int i = 0; i < THREAD_COUNT; i++) {
-                Thread t = new Thread(new DrawRunnable(tempStart, tempStart, g));
+                Thread t = new Thread(new DrawRunnable(tempStart, tempEnd, g));
                 drawThreadList.add(t);
+                drawThreadList.get(drawThreadList.size() - 1).start();
 
                 tempStart = tempEnd + 1;
                 //Any excess goes to the final thread
@@ -60,8 +59,9 @@ public class ParticleArea extends JPanel {
                     e.printStackTrace();
                 }
             }
+
+            drawThreadList.clear();
         }
-        //end timer
     }
 }
 
@@ -80,19 +80,45 @@ class DrawRunnable implements Runnable {
     public void run() {
         for(int i = start; i <= end; i++) {
             Particle p = ParticleArea.particleList.get(i);
-            g.drawOval(p.x.intValue(), p.y.intValue(), 9, 9);
+            synchronized (g) {
+                g.drawOval(p.x.intValue(), p.y.intValue(), 9, 9);
+            }
+
         }
     }
 }
 
 class RenderRunnable implements Runnable {
+    int frames = 0;
+    double fps = 0;
     @Override
     public void run() {
+        runTimers();
         Timer timer = new Timer((0), e -> {
-            MainLayout.particlePanel.repaint();
+            SwingUtilities.invokeLater(() -> {
+                MainLayout.particlePanel.repaint();
+                frames++;
+                System.out.println(frames);
+            });
         });
 
         timer.start();
+    }
+
+    // i have no idea what im doing
+    private void runTimers() {
+        Timer timer = new Timer(1000, e ->{
+            fps = frames / 1000.0;
+            frames = 0;
+        });
+
+        timer.start();
+
+        Timer displayTimer = new Timer(500, e -> {
+            MainLayout.fpsValue.setText(String.valueOf(fps));
+        });
+        displayTimer.start();
+
     }
 }
 
