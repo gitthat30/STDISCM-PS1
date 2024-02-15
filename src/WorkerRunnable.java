@@ -16,7 +16,7 @@ public class WorkerRunnable implements Runnable {
     // TODO: do computation for next position and add to commandQueue
     private void updateParticlePosition(Particle p) {
         //First get the velocity
-        System.out.println(Math.toRadians(command.angle));
+//        System.out.println(Math.toRadians(command.angle));
         Double xVelocity = Math.cos(Math.toRadians(command.angle)) * command.velocity;
         Double yVelocity = Math.sin(Math.toRadians(command.angle)) * command.velocity;
         //Get next positions

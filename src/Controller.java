@@ -22,21 +22,13 @@ public class Controller {
                     Double velocity = Double.parseDouble(MainLayout.pointVelocityField.getText());
                     Double angle = Double.parseDouble(MainLayout.pointAngleField.getText());
 
-                    System.out.println(startX);
-                    System.out.println(endX);
-                    System.out.println(startY);
-                    System.out.println(endY);
-
                     //Get Distance from start and end
                     double distanceX = Math.abs(startX - endX);
                     double distanceY = Math.abs(startY - endY);
 
                     //Get increment
-                    Double incrementX = distanceX / (numParticles + 1);
-                    Double incrementY = distanceY / (numParticles + 1);
-
-                    System.out.println(incrementX);
-                    System.out.println(incrementY);
+                    double incrementX = distanceX / (numParticles + 1);
+                    double incrementY = distanceY / (numParticles + 1);
 
                     //Pointer starts at start
                     double pointerX = startX + incrementX;
@@ -49,8 +41,6 @@ public class Controller {
 
                         Main.commandQueue.add(new Command(pointerX, pointerY, velocity, angle));
 
-                        System.out.println("X = " + pointerX);
-                        System.out.println("Y = " + pointerY);
                         pointerX += incrementX;
                         pointerY -= incrementY;
                     }
@@ -73,7 +63,6 @@ public class Controller {
                     int endY = 720 - Integer.parseInt(MainLayout.wallEndYField.getText());
 
                     Main.commandQueue.add(new Command(startX, startY, endX, endY));
-                    System.out.println("ADDING GENERATE_WALL COMMAND");
                 }
             }
         });

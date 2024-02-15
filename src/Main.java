@@ -10,11 +10,14 @@ public class Main {
     public static void main(String[] args) throws InterruptedException {
         RenderRunnable renderRunnable = new RenderRunnable();
         Thread renderThread = new Thread(renderRunnable);
-        renderThread.start(); // is it ok for this to get interrupted by closing the window?
 
         Controller.initializeActionListeners();
         MainLayout.initializeGUI();
         MainLayout.MainFrame.setVisible(true);
+
+        // Start rendering thread when the first point or wall is added
+        executorService.execute(new WorkerRunnable(commandQueue.take()));
+        renderThread.start();
 
         while(true) {
             executorService.execute(new WorkerRunnable(commandQueue.take()));
