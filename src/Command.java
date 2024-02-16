@@ -1,4 +1,7 @@
-public class Command {
+import java.util.concurrent.Delayed;
+import java.util.concurrent.TimeUnit;
+
+public class Command implements Delayed {
     CommandType type;
     Double x;
     Double y;
@@ -8,11 +11,14 @@ public class Command {
     int y2;
     public Double velocity;
     public Double angle;
+    long time;
     Particle p;
 
     /* Constructor for moving particle */
     public Command(Particle p, Double velocity, Double angle) {
         this.type = CommandType.MOVE;
+        this.time = System.currentTimeMillis()
+                + 125;
         this.velocity = velocity;
         this.angle = angle;
         this.p = p;
@@ -40,8 +46,22 @@ public class Command {
     }
 
 
+    @Override
+    public long getDelay(TimeUnit unit) {
+        long diff = time - System.currentTimeMillis();
+        return unit.convert(diff, TimeUnit.MILLISECONDS);
+    }
 
-
+    @Override
+    public int compareTo(Delayed o) {
+        if (this.time < ((Command)o).time) {
+            return -1;
+        }
+        if (this.time > ((Command)o).time) {
+            return 1;
+        }
+        return 0;
+    }
 }
 
 enum CommandType {

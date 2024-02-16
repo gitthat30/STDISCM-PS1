@@ -20,7 +20,7 @@ public class MainLayout {
 
     //Adding from point
     static JPanel pointPanel = new JPanel();
-    static JLabel pointLabel = new JLabel("Create Particles between Start and End points");
+    static JLabel pointLabel = new JLabel("Batch between two points");
     static JLabel pointNumText = new JLabel("Number of Particles");
     static JTextField pointNumField = new JTextField();
     static JLabel pointStartXText = new JLabel("Start X: ");
@@ -42,7 +42,7 @@ public class MainLayout {
 
     //Adding from angle
     static JPanel anglePanel = new JPanel();
-    static JLabel angleLabel = new JLabel("Create Particles between Start and End angles");
+    static JLabel angleLabel = new JLabel("Batch from two angles");
     static JLabel angleNumText = new JLabel("Number of Particles");
     static JTextField angleNumField = new JTextField();
     static JLabel angleStartAngleText = new JLabel("Start Angle: ");
@@ -62,7 +62,7 @@ public class MainLayout {
 
     //Adding from Velocities
     static JPanel velocityPanel = new JPanel();
-    static JLabel velocityLabel = new JLabel("Create Particles with Velocities");
+    static JLabel velocityLabel = new JLabel("Batch within range of Velocities");
     static JLabel velocityNumText = new JLabel("Number of Particles");
     static JTextField velocityNumField = new JTextField();
     static JLabel velocityStartVelocityText = new JLabel("Start Velocity: ");
@@ -70,8 +70,8 @@ public class MainLayout {
     static JLabel velocityEndVelocityText = new JLabel("End Velocity: ");
     static JTextField velocityEndVelocityField = new JTextField();
 
-    static JLabel velocityAngleText = new JLabel();
-    static JTextField velocityAngleField = new JTextField("Enter Angle: ");
+    static JLabel velocityAngleText = new JLabel("Enter Angle: ");
+    static JTextField velocityAngleField = new JTextField();
 
     static JLabel velocityStartXText = new JLabel("Start X: ");
     static JTextField velocityStartXField = new JTextField();
@@ -225,7 +225,7 @@ public class MainLayout {
 
         //Generating as a grid of 1 row and 3 columns. There are 3 ways to add particles, so that's why there are 3 columns
         particleGenerationContainer.setLayout(new GridLayout(1, 3));
-        particleGenerationContainer.setPreferredSize(new Dimension(1800, 115));
+        particleGenerationContainer.setPreferredSize(new Dimension(1300, 115));
 
         initializePointPanel();
         initializeAnglePanel();

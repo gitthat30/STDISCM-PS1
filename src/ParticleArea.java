@@ -22,6 +22,7 @@ public class ParticleArea extends JPanel {
         this.setBackground(Color.WHITE);
 
         int size = particleList.size();
+        long start = System.currentTimeMillis();
         if(size > 0) {
             int numPerThread = size / THREAD_COUNT;
             int tempStart = 0;
@@ -95,7 +96,6 @@ class RenderRunnable implements Runnable {
         Timer timer = new Timer((0), e -> {
             SwingUtilities.invokeLater(() -> {
                 MainLayout.particlePanel.repaint();
-                System.out.println(System.currentTimeMillis() + "  " + frames);
             });
         });
 
@@ -105,7 +105,7 @@ class RenderRunnable implements Runnable {
     // i have no idea what im doing
     private void runTimers() {
         Timer timer = new Timer(500, e ->{
-            fps = frames * 2;
+            fps = frames/0.5;
             MainLayout.fpsValue.setText(String.valueOf(fps));
             frames = 0;
         });
