@@ -48,9 +48,7 @@ public class ParticleArea extends JPanel {
                     tempEnd += numPerThread;
             }
 
-            for (Wall w : wallList) {
-                g.drawLine(w.getX1(), w.getY1(), w.getX2(), w.getY2());
-            }
+            System.out.println(wallList.size());
 
             for(Thread t : drawThreadList) {
                 try {
@@ -63,6 +61,10 @@ public class ParticleArea extends JPanel {
             RenderRunnable.frames++;
 
             drawThreadList.clear();
+        }
+
+        for (Wall w : wallList) {
+            g.drawLine(w.getX1(), w.getY1(), w.getX2(), w.getY2());
         }
     }
 }
@@ -102,7 +104,6 @@ class RenderRunnable implements Runnable {
         timer.start();
     }
 
-    // i have no idea what im doing
     private void runTimers() {
         Timer timer = new Timer(500, e ->{
             fps = frames/0.5;
