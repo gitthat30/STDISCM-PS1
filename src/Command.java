@@ -18,7 +18,7 @@ public class Command implements Delayed {
     public Command(Particle p, Double velocity, Double angle) {
         this.type = CommandType.MOVE;
         this.time = System.currentTimeMillis()
-                + 0;
+                + 62;
         this.velocity = velocity;
         this.angle = angle;
         this.p = p;

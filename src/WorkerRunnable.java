@@ -19,8 +19,8 @@ public class WorkerRunnable implements Runnable {
     private void updateParticlePosition(Particle p) {
         //First get the velocity
 //        System.out.println(Math.toRadians(command.angle));
-        Double xVelocity = Math.cos(Math.toRadians(command.angle)) * command.velocity/8;
-        Double yVelocity = Math.sin(Math.toRadians(command.angle)) * command.velocity/8;
+        Double xVelocity = Math.cos(Math.toRadians(command.angle)) * command.velocity/16;
+        Double yVelocity = Math.sin(Math.toRadians(command.angle)) * command.velocity/16;
         //Get next positions
         double newX = p.x + xVelocity;
         double newY = p.y - yVelocity;
