@@ -146,10 +146,23 @@ public class WorkerRunnable implements Runnable {
 
             System.out.println("Here " + command.angle);
 
-            xVelocity = Math.cos(Math.toRadians(command.angle)) * command.velocity/8;
-            yVelocity = Math.sin(Math.toRadians(command.angle)) * command.velocity/8;
+            xVelocity = Math.cos(Math.toRadians(command.angle)) * 1;
+            yVelocity = Math.sin(Math.toRadians(command.angle)) * 1;
             newX += xVelocity;
             newY -= yVelocity;
+
+            if(newX > 1270) {
+                newX = 1270.00;
+            }
+            if(newX < 0) {
+                newX = 0.00;
+            }
+            if(newY < 0) {
+                newY = 0.00;
+            }
+            if(newY > 710) {
+                newY = 710.00;
+            }
         }
 
         //Move the particle
