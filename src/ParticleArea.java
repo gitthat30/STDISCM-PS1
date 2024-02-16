@@ -32,8 +32,7 @@ public class ParticleArea extends JPanel {
                 numPerThread = 1;
             }
 
-            THREAD_COUNT = Math.min(THREAD_COUNT, size);
-
+            THREAD_COUNT = Math.min(THREAD_COUNT, particleList.size());
             for (int i = 0; i < THREAD_COUNT; i++) {
                 Thread t = new Thread(new DrawRunnable(tempStart, tempEnd, g));
                 drawThreadList.add(t);
@@ -110,9 +109,7 @@ class RenderRunnable implements Runnable {
             MainLayout.fpsValue.setText(String.valueOf(fps));
             frames = 0;
         });
-
         timer.start();
-
     }
 }
 

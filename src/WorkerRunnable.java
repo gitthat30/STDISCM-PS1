@@ -1,4 +1,5 @@
-import javax.swing.*;
+/* This class contains code based on the following: https://paulbourke.net/geometry/pointlineplane/
+* See getIntersection() method. */
 
 public class WorkerRunnable implements Runnable {
     Command command;
@@ -15,10 +16,8 @@ public class WorkerRunnable implements Runnable {
         }
     }
 
-    // TODO: do computation for next position and add to commandQueue
     private void updateParticlePosition(Particle p) {
         //First get the velocity
-//        System.out.println(Math.toRadians(command.angle));
         Double xVelocity = Math.cos(Math.toRadians(command.angle)) * command.velocity/16;
         Double yVelocity = Math.sin(Math.toRadians(command.angle)) * command.velocity/16;
         //Get next positions
@@ -38,7 +37,6 @@ public class WorkerRunnable implements Runnable {
         for(Wall w : ParticleArea.wallList) {
             tempIntersection = getIntersection(p.x, p.y, newX, newY, w.getX1(), w.getY1(), w.getX2(), w.getY2());
             if(tempIntersection != null) {
-                System.out.println("wall");
                 //Get intersection of the two lines
                 //Check if distance is less than shortest distance
                 double tempDistance = getDistance(p.x, p.y, tempIntersection.x, tempIntersection.y);
@@ -53,6 +51,7 @@ public class WorkerRunnable implements Runnable {
 
 
         if(wallFlag) {
+            assert shortestIntersection != null;
             newX = shortestIntersection.x;
             newY = shortestIntersection.y;
 
@@ -60,9 +59,7 @@ public class WorkerRunnable implements Runnable {
             double rise = bounceWall.getY1() - bounceWall.getY2(); //Remember Y is flipped
             double run = bounceWall.getX2() - bounceWall.getX1();
             double wallAngle = Math.toDegrees(Math.atan2(rise, run));
-            System.out.println("Before Loop" + wallAngle);
             while(wallAngle < 0) {
-                System.out.println("Here");
                 wallAngle += 360.00;
             }
 
@@ -73,7 +70,6 @@ public class WorkerRunnable implements Runnable {
             command.angle += 180.00;
             while(command.angle > 360)
                 command.angle -= 360.00;
-            System.out.println("Command angle is now " + command.angle);
 
             double plusAngle = wallAngle + 90;
             double minusAngle = wallAngle - 90;
@@ -95,35 +91,27 @@ public class WorkerRunnable implements Runnable {
                 perpendicularAngle = plusAngle;
             else
                 perpendicularAngle = minusAngle;
-
-
-            System.out.println("Wall: " + wallAngle + " Perp: " + perpendicularAngle);
-
         }
 
 
         //Border
         if(!wallFlag) {
             if (newX > 1270) {
-                System.out.println("Setting true");
                 bounceFlag = true;
                 newX = 1270.00;
                 perpendicularAngle = 180.00;
                 command.angle += 180.00; //Hitting from left
             } else if (newX < 0) {
-                System.out.println("Setting true2");
                 bounceFlag = true;
                 newX = 0.00;
                 perpendicularAngle = 0.00;
                 command.angle -= 180.00; //Hitting from right
             } else if (newY < 0) {
-                System.out.println("Setting true3");
                 bounceFlag = true;
                 newY = 0.00;
                 perpendicularAngle = 90.00;
                 command.angle += 180.00; //Hitting from below
             } else if (newY > 710) {
-                System.out.println("Setting true4 " + newY);
                 bounceFlag = true;
                 newY = 710.00;
                 perpendicularAngle = 270.00;
@@ -132,19 +120,13 @@ public class WorkerRunnable implements Runnable {
             }
         }
 
-        System.out.println(bounceFlag + " " + wallFlag);
         if(bounceFlag || wallFlag) {
-            System.out.println("Entered flag: " + command.angle + " " + perpendicularAngle);
-
             if(perpendicularAngle > command.angle) {
-                System.out.println("Greater than " + command.angle);
                 command.angle = perpendicularAngle + (perpendicularAngle - command.angle);
             }
             else {
                 command.angle = perpendicularAngle - (command.angle - perpendicularAngle);
             }
-
-            System.out.println("Here " + command.angle);
 
             xVelocity = Math.cos(Math.toRadians(command.angle)) * 1;
             yVelocity = Math.sin(Math.toRadians(command.angle)) * 1;
@@ -173,7 +155,6 @@ public class WorkerRunnable implements Runnable {
         //If no border or wall, update position
 
         //Else if wall or border, bounce off the wall using angle of reflection.
-        System.out.println("Setting angle to " + command.angle);
         Main.commandQueue.add(new Command(p, command.velocity, command.angle));
     }
 
@@ -191,6 +172,8 @@ public class WorkerRunnable implements Runnable {
         ParticleArea.wallList.add(new Wall(command.x1, command.y1, command.x2, command.y2));
     }
 
+    // This function is based on the work of Paul Bourke (1988)
+    // https://paulbourke.net/geometry/pointlineplane/
     private Intersection getIntersection(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4) {
 
         // Check if none of the lines are of length 0
@@ -205,8 +188,8 @@ public class WorkerRunnable implements Runnable {
             return null;
         }
 
-        Double ua = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / denominator;
-        Double ub = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / denominator;
+        double ua = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / denominator;
+        double ub = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / denominator;
 
         // is the intersection along the segments
         if (ua < 0 || ua > 1 || ub < 0 || ub > 1) {
@@ -214,8 +197,8 @@ public class WorkerRunnable implements Runnable {
         }
 
         // Return a object with the x and y coordinates of the intersection
-        Double x = x1 + ua * (x2 - x1);
-        Double y = y1 + ua * (y2 - y1);
+        double x = x1 + ua * (x2 - x1);
+        double y = y1 + ua * (y2 - y1);
 
         return new Intersection(x, y);
     }
