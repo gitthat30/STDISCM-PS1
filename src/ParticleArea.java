@@ -62,6 +62,7 @@ public class ParticleArea extends JPanel {
         }
 
         for (Wall w : wallList) {
+            g.setColor(Color.RED);
             g.drawLine(w.getX1(), w.getY1(), w.getX2(), w.getY2());
         }
     }
@@ -82,7 +83,8 @@ class DrawRunnable implements Runnable {
     public void run() {
         for(int i = start; i <= end; i++) {
             Particle p = ParticleArea.particleList.get(i);
-            g.drawOval(p.x.intValue(), p.y.intValue(), 9, 9);
+            g.setColor(Color.black);
+            g.fillOval(p.x.intValue(), p.y.intValue(), 9, 9);
         }
     }
 }
