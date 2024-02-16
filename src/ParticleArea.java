@@ -48,8 +48,6 @@ public class ParticleArea extends JPanel {
                     tempEnd += numPerThread;
             }
 
-            System.out.println(wallList.size());
-
             for(Thread t : drawThreadList) {
                 try {
                     t.join();

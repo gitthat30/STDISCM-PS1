@@ -84,7 +84,6 @@ public class Controller {
 
                 for(int i = 0; i < numParticles; i++) {
                     double newVelocity = velocityStart + (i * increment * (velocityEnd < 0 ? -1 : 1));
-                    System.out.println(newVelocity);
                     Main.commandQueue.add(new Command(x, y, newVelocity, angle));
                 }
             }

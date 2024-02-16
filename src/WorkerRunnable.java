@@ -23,7 +23,6 @@ public class WorkerRunnable implements Runnable {
         Double yVelocity = Math.sin(Math.toRadians(command.angle)) * command.velocity/8;
         //Get next positions
         double newX = p.x + xVelocity;
-        System.out.println(xVelocity + " " + System.currentTimeMillis());
         double newY = p.y - yVelocity;
 
         //Check if next position is either: Past the border or hits a wall
@@ -32,61 +31,125 @@ public class WorkerRunnable implements Runnable {
         double perpendicularAngle = 0.0;
 
         Intersection tempIntersection = null;
+        Intersection shortestIntersection = null;
+        Wall bounceWall = null;
+        double shortestDistance = 9999.0;
+
         for(Wall w : ParticleArea.wallList) {
-            //Check if line particle passes through
-            if((p.x >= w.getX1() && newX <= w.getX2()) && (p.y >= w.getY1() && newY <= w.getY2())) {
+            tempIntersection = getIntersection(p.x, p.y, newX, newY, w.getX1(), w.getY1(), w.getX2(), w.getY2());
+            if(tempIntersection != null) {
+                System.out.println("wall");
                 //Get intersection of the two lines
-                tempIntersection = getIntersection(p.x, p.y, newX, newY, w.getX1(), w.getY1(), w.getX2(), w.getY2());
-
-                //Iterate through, getting and keeping intersections
-
-                //Store the intersection with the lowest distance from OG point
-
-                //Set wall flag to true
+                //Check if distance is less than shortest distance
+                double tempDistance = getDistance(p.x, p.y, tempIntersection.x, tempIntersection.y);
+                if(tempDistance < shortestDistance) {
+                    shortestDistance = tempDistance;
+                    shortestIntersection = tempIntersection;
+                    bounceWall = w;
+                }
                 wallFlag = true;
             }
         }
 
+
         if(wallFlag) {
-            newX = tempIntersection.x;
-            newY = tempIntersection.y;
+            newX = shortestIntersection.x;
+            newY = shortestIntersection.y;
+
+            //Get angle of wall
+            double rise = bounceWall.getY1() - bounceWall.getY2(); //Remember Y is flipped
+            double run = bounceWall.getX2() - bounceWall.getX1();
+            double wallAngle = Math.toDegrees(Math.atan2(rise, run));
+            System.out.println("Before Loop" + wallAngle);
+            while(wallAngle < 0) {
+                System.out.println("Here");
+                wallAngle += 360.00;
+            }
+
+            while(command.angle < 0) {
+                command.angle += 360.00;
+            }
+
+            command.angle += 180.00;
+            while(command.angle > 360)
+                command.angle -= 360.00;
+            System.out.println("Command angle is now " + command.angle);
+
+            double plusAngle = wallAngle + 90;
+            double minusAngle = wallAngle - 90;
+            if(minusAngle < 0) {
+                minusAngle += 360.00;
+            }
+
+            double plusCompare = command.angle - plusAngle;
+            if(plusCompare < 0) {
+                plusCompare += 360.00;
+            }
+            double minusCompare = command.angle - minusAngle;
+            if(minusCompare < 0) {
+                minusCompare += 360.00;
+            }
+
+
+            if(plusCompare < minusCompare)
+                perpendicularAngle = plusAngle;
+            else
+                perpendicularAngle = minusAngle;
+
+
+            System.out.println("Wall: " + wallAngle + " Perp: " + perpendicularAngle);
+
         }
-        else {
-            //Border
-            if(newX >= 1270) {
+
+
+        //Border
+        if(!wallFlag) {
+            if (newX > 1270) {
+                System.out.println("Setting true");
                 bounceFlag = true;
                 newX = 1270.00;
                 perpendicularAngle = 180.00;
                 command.angle += 180.00; //Hitting from left
-            }
-            else if(newX <= 0) {
+            } else if (newX < 0) {
+                System.out.println("Setting true2");
                 bounceFlag = true;
                 newX = 0.00;
                 perpendicularAngle = 0.00;
                 command.angle -= 180.00; //Hitting from right
-            }
-            else if(newY <= 0) {
+            } else if (newY < 0) {
+                System.out.println("Setting true3");
                 bounceFlag = true;
                 newY = 0.00;
                 perpendicularAngle = 90.00;
                 command.angle += 180.00; //Hitting from below
-            }
-            else if(newY >= 710) {
+            } else if (newY > 710) {
+                System.out.println("Setting true4 " + newY);
                 bounceFlag = true;
                 newY = 710.00;
                 perpendicularAngle = 270.00;
                 command.angle -= 180.00; //Hitting from below
 
             }
+        }
 
-            if(bounceFlag) {
-                if(perpendicularAngle > command.angle) {
-                    command.angle = perpendicularAngle + (perpendicularAngle - command.angle);
-                }
-                else {
-                    command.angle = perpendicularAngle - (command.angle - perpendicularAngle);
-                }
+        System.out.println(bounceFlag + " " + wallFlag);
+        if(bounceFlag || wallFlag) {
+            System.out.println("Entered flag: " + command.angle + " " + perpendicularAngle);
+
+            if(perpendicularAngle > command.angle) {
+                System.out.println("Greater than " + command.angle);
+                command.angle = perpendicularAngle + (perpendicularAngle - command.angle);
             }
+            else {
+                command.angle = perpendicularAngle - (command.angle - perpendicularAngle);
+            }
+
+            System.out.println("Here " + command.angle);
+
+            xVelocity = Math.cos(Math.toRadians(command.angle)) * command.velocity/8;
+            yVelocity = Math.sin(Math.toRadians(command.angle)) * command.velocity/8;
+            newX += xVelocity;
+            newY -= yVelocity;
         }
 
         //Move the particle
@@ -97,7 +160,12 @@ public class WorkerRunnable implements Runnable {
         //If no border or wall, update position
 
         //Else if wall or border, bounce off the wall using angle of reflection.
+        System.out.println("Setting angle to " + command.angle);
         Main.commandQueue.add(new Command(p, command.velocity, command.angle));
+    }
+
+    private double getDistance(Double x, Double y, double x1, double y1) {
+        return Math.sqrt(Math.pow(x - x1, 2) + Math.pow(y - y1, 2));
     }
 
     private void generateParticle() {
