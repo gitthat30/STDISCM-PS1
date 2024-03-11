@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Controller {
+    public static ModeType SIM_MODE = ModeType.DEVELOPER;
+
     public static void initializeActionListeners() {
         MainLayout.pointGenerateParticleButton.addActionListener(e -> {
             InvalidType invalidResult = invalidFields(MainLayout.pointPanel);
@@ -86,6 +88,20 @@ public class Controller {
                 }
             }
         });
+
+        MainLayout.modeButton.addActionListener(e -> {
+            switch (SIM_MODE) {
+                case EXPLORER -> {
+                    SIM_MODE = ModeType.DEVELOPER;
+                    MainLayout.modeButton.setText("Go to Explorer Mode");
+                    MainLayout.modeText.setText("DEVELOPER MODE");
+                } case DEVELOPER -> {
+                    SIM_MODE = ModeType.EXPLORER;
+                    MainLayout.modeButton.setText("Go to Developer Mode");
+                    MainLayout.modeText.setText("EXPLORER MODE");
+                }
+            }
+        });
     }
 
     /* General method to check if there are invalid inputs in panel's fields */
@@ -123,4 +139,9 @@ public class Controller {
 enum InvalidType {
     EMPTY_FIELD,
     NON_NUMERIC
+}
+
+enum ModeType {
+    DEVELOPER,
+    EXPLORER
 }

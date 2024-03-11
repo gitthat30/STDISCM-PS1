@@ -79,6 +79,10 @@ public class MainLayout {
     static JTextField velocityStartYField = new JTextField();
     static JButton velocityGenerateParticleButton = new JButton("Generate Particle(s)");
 
+    // Simulation Mode
+    static JLabel modeText = new JLabel("DEVELOPER MODE");
+    static JButton modeButton = new JButton("Go to Explorer Mode");
+
     //For the grid layouts. Since the Panels for adding particles are of dimension (7,2) there are times when you only have one component on one row, so this is to add a filler label for those cases.
     public static void addFiller(JPanel panel) {
         JLabel filler = new JLabel();
@@ -107,7 +111,7 @@ public class MainLayout {
         anglePanel.add(angleStartYText);
         anglePanel.add(angleStartYField);
 
-        anglePanel.add(angleVelocityText); // MISSING
+        anglePanel.add(angleVelocityText);
         anglePanel.add(angleVelocityField);
 
         addFiller(anglePanel);
@@ -181,6 +185,9 @@ public class MainLayout {
         MainPanel.setPreferredSize(new Dimension(1920,1080));
         MainPanel.setLayout(new FlowLayout());
 
+        MainPanel.add(modeText);
+        newRow();
+
         MainPanel.add(fpsLabel);
         MainPanel.add(fpsValue);
         newRow();
@@ -208,6 +215,8 @@ public class MainLayout {
 
         MainPanel.add(particleGenerationContainer);
         newRow();
+
+        MainPanel.add(modeButton);
 
         JScrollPane scroll = new JScrollPane(MainPanel,ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 
