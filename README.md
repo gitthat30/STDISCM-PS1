@@ -2,7 +2,7 @@
 *Samuel Derrick Nieva, Viktoria Lila Sicuan (S12)*
 
 ## Description
-This Java program serves as a particle physics simulator with wall-bouncing capabilities. It allows users to visualize and simulate the behavior of particles within a defined environment, observing their interactions and collisions with walls.
+This Java program serves as a particle physics simulator with border-bouncing capabilities. It allows users to visualize and simulate the behavior of particles within a defined environment, observing their interactions and collisions with borders.
 
 ## How to Run
 To run the program, follow these steps:
@@ -29,5 +29,5 @@ Once the program is running, you can:
 
 - Define the initial parameters of the particle generation.
 - Observe the behavior of particles as they move within the defined environment.
-- Visualize collisions between particles and walls.
+- Visualize collisions between particles and borders.
 - Customize the properties of particles and the simulation environment.

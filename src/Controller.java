@@ -86,21 +86,6 @@ public class Controller {
                 }
             }
         });
-
-        MainLayout.wallGenerateWallButton.addActionListener(e -> {
-            InvalidType invalidResult = invalidFields(MainLayout.wallPanel);
-            if(invalidResult != null) {
-                showErrorDialog(invalidResult);
-            }
-            else {
-                int startX = Integer.parseInt(MainLayout.wallStartXField.getText());
-                int startY = 720 - Integer.parseInt(MainLayout.wallStartYField.getText());
-                int endX = Integer.parseInt(MainLayout.wallEndXField.getText());
-                int endY = 720 - Integer.parseInt(MainLayout.wallEndYField.getText());
-
-                Main.commandQueue.add(new Command(startX, startY, endX, endY));
-            }
-        });
     }
 
     /* General method to check if there are invalid inputs in panel's fields */

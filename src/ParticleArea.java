@@ -5,8 +5,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ParticleArea extends JPanel {
     static CopyOnWriteArrayList<Particle> particleList = new CopyOnWriteArrayList<>();
-    static CopyOnWriteArrayList<Wall> wallList = new CopyOnWriteArrayList<>();
-
     int THREAD_COUNT = 8;
     ArrayList<Thread> drawThreadList = new ArrayList<>();
 
@@ -22,7 +20,6 @@ public class ParticleArea extends JPanel {
         this.setBackground(Color.WHITE);
 
         int size = particleList.size();
-        long start = System.currentTimeMillis();
         if(size > 0) {
             int numPerThread = size / THREAD_COUNT;
             int tempStart = 0;
@@ -58,11 +55,6 @@ public class ParticleArea extends JPanel {
             RenderRunnable.frames++;
 
             drawThreadList.clear();
-        }
-
-        for (Wall w : wallList) {
-            g.setColor(Color.RED);
-            g.drawLine(w.getX1(), w.getY1(), w.getX2(), w.getY2());
         }
     }
 }

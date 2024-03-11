@@ -79,19 +79,6 @@ public class MainLayout {
     static JTextField velocityStartYField = new JTextField();
     static JButton velocityGenerateParticleButton = new JButton("Generate Particle(s)");
 
-    //Adding Walls
-    static JPanel wallPanel = new JPanel();
-    static JLabel wallLabel = new JLabel("Wall Generation");
-    static JLabel wallStartXText = new JLabel("Start X: ");
-    static JTextField wallStartXField = new JTextField();
-    static JLabel wallStartYText = new JLabel("Start Y: ");
-    static JTextField wallStartYField = new JTextField();
-    static JLabel wallEndXText = new JLabel("End X: ");
-    static JTextField wallEndXField = new JTextField();
-    static JLabel wallEndYText = new JLabel("End Y: ");
-    static JTextField wallEndYField = new JTextField();
-    static JButton wallGenerateWallButton = new JButton("Generate Wall");
-
     //For the grid layouts. Since the Panels for adding particles are of dimension (7,2) there are times when you only have one component on one row, so this is to add a filler label for those cases.
     public static void addFiller(JPanel panel) {
         JLabel filler = new JLabel();
@@ -188,26 +175,6 @@ public class MainLayout {
         velocityPanel.add(velocityGenerateParticleButton);
     }
 
-    public static void initializeWallPanel() {
-        wallPanel.setLayout(new GridLayout(5, 2));
-        wallPanel.setPreferredSize(new Dimension(300, 80));
-
-        wallPanel.add(wallStartXText);
-        wallPanel.add(wallStartXField);
-
-        wallPanel.add(wallStartYText);
-        wallPanel.add(wallStartYField);
-
-        wallPanel.add(wallEndXText);
-        wallPanel.add(wallEndXField);
-
-        wallPanel.add(wallEndYText);
-        wallPanel.add(wallEndYField);
-
-        addFiller(wallPanel);
-        wallPanel.add(wallGenerateWallButton);
-    }
-
     public static void initializeGUI() {
         MainFrame.setPreferredSize(new Dimension(1920,1080));
         MainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -230,7 +197,6 @@ public class MainLayout {
         initializePointPanel();
         initializeAnglePanel();
         initializeVelocityPanel();
-        initializeWallPanel();
 
         particleGenerationContainer.add(pointPanel);
         particleGenerationContainer.add(anglePanel);
@@ -242,11 +208,6 @@ public class MainLayout {
 
         MainPanel.add(particleGenerationContainer);
         newRow();
-
-        MainPanel.add(wallLabel);
-        newRow();
-
-        MainPanel.add(wallPanel);
 
         JScrollPane scroll = new JScrollPane(MainPanel,ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 

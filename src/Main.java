@@ -15,7 +15,7 @@ public class Main {
         MainLayout.initializeGUI();
         MainLayout.MainFrame.setVisible(true);
 
-        // Start rendering thread when the first point or wall is added
+        // Start rendering thread when the first point
         executorService.execute(new WorkerRunnable(commandQueue.take()));
         renderThread.start();
         while(true) {

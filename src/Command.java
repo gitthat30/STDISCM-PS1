@@ -5,10 +5,6 @@ public class Command implements Delayed {
     CommandType type;
     Double x;
     Double y;
-    int x1;
-    int y1;
-    int x2;
-    int y2;
     public Double velocity;
     public Double angle;
     long time;
@@ -34,18 +30,6 @@ public class Command implements Delayed {
         this.angle = d;
     }
 
-    /* Constructor for generating wall */
-    Command(int a, int b, int c, int d) {
-        this.type = CommandType.GENERATE_WALL;
-
-        this.x1 = a;
-        this.y1 = b;
-        this.x2 = c;
-        this.y2 = d;
-
-    }
-
-
     @Override
     public long getDelay(TimeUnit unit) {
         long diff = time - System.currentTimeMillis();
@@ -54,18 +38,11 @@ public class Command implements Delayed {
 
     @Override
     public int compareTo(Delayed o) {
-        if (this.time < ((Command)o).time) {
-            return -1;
-        }
-        if (this.time > ((Command)o).time) {
-            return 1;
-        }
-        return 0;
+        return Long.compare(this.time, ((Command) o).time);
     }
 }
 
 enum CommandType {
     MOVE,
-    GENERATE_PARTICLE,
-    GENERATE_WALL
+    GENERATE_PARTICLE
 }
