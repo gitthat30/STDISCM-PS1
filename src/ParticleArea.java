@@ -8,6 +8,8 @@ public class ParticleArea extends JPanel {
     int THREAD_COUNT = 8;
     ArrayList<Thread> drawThreadList = new ArrayList<>();
 
+    static User user = null;
+
 
     ParticleArea() {
         super();
@@ -18,6 +20,11 @@ public class ParticleArea extends JPanel {
     public void paint(Graphics g) {
         super.paint(g);
         this.setBackground(Color.WHITE);
+
+        if (user != null) {
+            g.setColor(Color.green);
+            g.fillOval(user.x.intValue(), user.y.intValue(), 9, 9);
+        }
 
         int size = particleList.size();
         if(size > 0) {

@@ -95,10 +95,14 @@ public class Controller {
                     SIM_MODE = ModeType.DEVELOPER;
                     MainLayout.modeButton.setText("Go to Explorer Mode");
                     MainLayout.modeText.setText("DEVELOPER MODE");
+
+                    ParticleArea.user = null;
                 } case DEVELOPER -> {
                     SIM_MODE = ModeType.EXPLORER;
                     MainLayout.modeButton.setText("Go to Developer Mode");
                     MainLayout.modeText.setText("EXPLORER MODE");
+
+                    Main.commandQueue.add(new Command());
                 }
             }
         });

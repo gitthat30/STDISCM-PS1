@@ -12,7 +12,7 @@ public class Command implements Delayed {
 
     /* Constructor for moving particle */
     public Command(Particle p, Double velocity, Double angle) {
-        this.type = CommandType.MOVE;
+        this.type = CommandType.MOVE_PARTICLE;
         this.time = System.currentTimeMillis()
                 + 62;
         this.velocity = velocity;
@@ -30,6 +30,11 @@ public class Command implements Delayed {
         this.angle = d;
     }
 
+    // Constructor for spawning user
+    Command() {
+        this.type = CommandType.SPAWN_USER;
+    }
+
     @Override
     public long getDelay(TimeUnit unit) {
         long diff = time - System.currentTimeMillis();
@@ -43,6 +48,8 @@ public class Command implements Delayed {
 }
 
 enum CommandType {
-    MOVE,
-    GENERATE_PARTICLE
+    MOVE_PARTICLE,
+    GENERATE_PARTICLE,
+    MOVE_USER,
+    SPAWN_USER
 }

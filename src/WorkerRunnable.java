@@ -10,9 +10,19 @@ public class WorkerRunnable implements Runnable {
     @Override
     public void run() {
         switch (command.type) {
-            case MOVE -> updateParticlePosition(command.p);
+            case MOVE_USER -> updateUserPosition();
+            case SPAWN_USER -> spawnUser();
+            case MOVE_PARTICLE -> updateParticlePosition(command.p);
             case GENERATE_PARTICLE -> generateParticle();
         }
+    }
+
+    private void updateUserPosition() {
+
+    }
+
+    private void spawnUser() {
+        ParticleArea.user = new User();
     }
 
     private void updateParticlePosition(Particle p) {
