@@ -10,15 +10,24 @@ public class WorkerRunnable implements Runnable {
     @Override
     public void run() {
         switch (command.type) {
-            case MOVE_USER -> updateUserPosition();
+            case MOVE_USER -> updateUserPosition(command.direction);
             case SPAWN_USER -> spawnUser();
             case MOVE_PARTICLE -> updateParticlePosition(command.p);
             case GENERATE_PARTICLE -> generateParticle();
         }
     }
 
-    private void updateUserPosition() {
+    private void updateUserPosition(Direction direction) {
+        if (ParticleArea.user != null) {
+            Double v = ParticleArea.user.velocity;
 
+            switch (direction) {
+                case UP -> ParticleArea.user.y -= v;
+                case DOWN -> ParticleArea.user.y += v;
+                case LEFT -> ParticleArea.user.x -= v;
+                case RIGHT -> ParticleArea.user.x += v;
+            }
+        }
     }
 
     private void spawnUser() {

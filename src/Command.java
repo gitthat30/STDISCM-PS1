@@ -9,6 +9,7 @@ public class Command implements Delayed {
     public Double angle;
     long time;
     Particle p;
+    Direction direction;
 
     /* Constructor for moving particle */
     public Command(Particle p, Double velocity, Double angle) {
@@ -33,6 +34,11 @@ public class Command implements Delayed {
     // Constructor for spawning user
     Command() {
         this.type = CommandType.SPAWN_USER;
+    }
+
+    Command(Direction direction) {
+        this.type = CommandType.MOVE_USER;
+        this.direction = direction;
     }
 
     @Override

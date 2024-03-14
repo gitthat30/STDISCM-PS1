@@ -10,7 +10,6 @@ public class ParticleArea extends JPanel {
 
     static User user = null;
 
-
     ParticleArea() {
         super();
         this.setOpaque(true);
@@ -21,10 +20,18 @@ public class ParticleArea extends JPanel {
         super.paint(g);
         this.setBackground(Color.WHITE);
 
+        Graphics2D g2d = (Graphics2D) g.create();
+
+        double zoomFactor = 1.0;
         if (user != null) {
-            g.setColor(Color.green);
-            g.fillOval(user.x.intValue(), user.y.intValue(), 9, 9);
+            g2d.setColor(Color.green);
+            g2d.fillOval(user.x.intValue(), user.y.intValue(), 27, 27);
+            zoomFactor = 3.0;
         }
+
+        g2d.scale(zoomFactor, zoomFactor);
+//        g2d.setColor(Color.BLUE);
+//        g2d.fillRect(0, 0, 100, 100); // Example drawing
 
         int size = particleList.size();
         if(size > 0) {
@@ -38,7 +45,7 @@ public class ParticleArea extends JPanel {
 
             THREAD_COUNT = Math.min(THREAD_COUNT, particleList.size());
             for (int i = 0; i < THREAD_COUNT; i++) {
-                Thread t = new Thread(new DrawRunnable(tempStart, tempEnd, g));
+                Thread t = new Thread(new DrawRunnable(tempStart, tempEnd, g2d));
                 drawThreadList.add(t);
                 drawThreadList.get(drawThreadList.size() - 1).start();
 

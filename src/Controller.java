@@ -1,5 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public class Controller {
     public static ModeType SIM_MODE = ModeType.DEVELOPER;
@@ -106,6 +110,39 @@ public class Controller {
                 }
             }
         });
+
+        MainLayout.pointPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("pressed W"), "pressedW");
+        MainLayout.pointPanel.getActionMap().put("pressedW", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Main.commandQueue.add(new Command(Direction.UP));
+
+            }
+        });
+
+        MainLayout.pointPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("pressed A"), "pressedA");
+        MainLayout.pointPanel.getActionMap().put("pressedA", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Main.commandQueue.add(new Command(Direction.LEFT));
+            }
+        });
+
+        MainLayout.pointPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("pressed S"), "pressedS");
+        MainLayout.pointPanel.getActionMap().put("pressedS", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Main.commandQueue.add(new Command(Direction.DOWN));
+            }
+        });
+
+        MainLayout.pointPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("pressed D"), "pressedD");
+        MainLayout.pointPanel.getActionMap().put("pressedD", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Main.commandQueue.add(new Command(Direction.RIGHT));
+            }
+        });
     }
 
     /* General method to check if there are invalid inputs in panel's fields */
@@ -148,4 +185,11 @@ enum InvalidType {
 enum ModeType {
     DEVELOPER,
     EXPLORER
+}
+
+enum Direction {
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT
 }
