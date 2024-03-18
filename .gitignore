@@ -31,3 +31,4 @@ bin/
 *.class
 
 Temp.java
+ZoomablePanel.java

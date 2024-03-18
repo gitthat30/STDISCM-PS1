@@ -8,30 +8,42 @@ public class ParticleArea extends JPanel {
     int THREAD_COUNT = 8;
     ArrayList<Thread> drawThreadList = new ArrayList<>();
 
-    static User user = null;
+    static User user;
+    static Graphics2D g2d = null;
+    double scaleX = 1.0;
+    double scaleY = 1.0;
+    static int ovalSize = 9;
 
     ParticleArea() {
         super();
         this.setOpaque(true);
         this.setBackground(Color.WHITE);
+
+        user = new User();
     }
 
     public void paint(Graphics g) {
         super.paint(g);
         this.setBackground(Color.WHITE);
 
-        Graphics2D g2d = (Graphics2D) g.create();
+        g2d = (Graphics2D) g.create();
 
-        double zoomFactor = 1.0;
-        if (user != null) {
-            g2d.setColor(Color.green);
-            g2d.fillOval(user.x.intValue(), user.y.intValue(), 27, 27);
-            zoomFactor = 3.0;
+        g2d.translate(user.x.intValue(), user.y.intValue());
+
+        if (Controller.SIM_MODE == ModeType.EXPLORER) {
+            scaleX = (double) getWidth() / (33.0 + ovalSize);
+            scaleY = (double) getHeight() / (19.0 + ovalSize);
+            g2d.scale(scaleX, scaleY);
+        } else {
+            g2d.scale(1.0, 1.0);
         }
 
-        g2d.scale(zoomFactor, zoomFactor);
-//        g2d.setColor(Color.BLUE);
-//        g2d.fillRect(0, 0, 100, 100); // Example drawing
+        g2d.translate(-1*user.x.intValue(), -1*user.y.intValue());
+
+        g2d.setColor(Color.BLUE);
+        g2d.fillRect(user.cameraX.intValue(), user.cameraY.intValue(), 33 + ovalSize, 19 + ovalSize);
+        g2d.setColor(Color.green);
+        g2d.fillOval(user.x.intValue(), user.y.intValue(), ovalSize, ovalSize);
 
         int size = particleList.size();
         if(size > 0) {
@@ -89,7 +101,7 @@ class DrawRunnable implements Runnable {
         for(int i = start; i <= end; i++) {
             Particle p = ParticleArea.particleList.get(i);
             g.setColor(Color.black);
-            g.fillOval(p.x.intValue(), p.y.intValue(), 9, 9);
+            g.fillOval(p.x.intValue(), p.y.intValue(), ParticleArea.ovalSize, ParticleArea.ovalSize);
         }
     }
 }

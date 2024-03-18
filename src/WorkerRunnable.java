@@ -11,7 +11,6 @@ public class WorkerRunnable implements Runnable {
     public void run() {
         switch (command.type) {
             case MOVE_USER -> updateUserPosition(command.direction);
-            case SPAWN_USER -> spawnUser();
             case MOVE_PARTICLE -> updateParticlePosition(command.p);
             case GENERATE_PARTICLE -> generateParticle();
         }
@@ -22,16 +21,24 @@ public class WorkerRunnable implements Runnable {
             Double v = ParticleArea.user.velocity;
 
             switch (direction) {
-                case UP -> ParticleArea.user.y -= v;
-                case DOWN -> ParticleArea.user.y += v;
-                case LEFT -> ParticleArea.user.x -= v;
-                case RIGHT -> ParticleArea.user.x += v;
+                case UP -> {
+                    ParticleArea.user.y -= v;
+                    ParticleArea.user.cameraY -= v;
+                }
+                case DOWN -> {
+                    ParticleArea.user.y += v;
+                    ParticleArea.user.cameraY += v;
+                }
+                case LEFT -> {
+                    ParticleArea.user.x -= v;
+                    ParticleArea.user.cameraX -= v;
+                }
+                case RIGHT -> {
+                    ParticleArea.user.x += v;
+                    ParticleArea.user.cameraX += v;
+                }
             }
         }
-    }
-
-    private void spawnUser() {
-        ParticleArea.user = new User();
     }
 
     private void updateParticlePosition(Particle p) {

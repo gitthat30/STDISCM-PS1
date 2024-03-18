@@ -99,8 +99,6 @@ public class Controller {
                     SIM_MODE = ModeType.DEVELOPER;
                     MainLayout.modeButton.setText("Go to Explorer Mode");
                     MainLayout.modeText.setText("DEVELOPER MODE");
-
-                    ParticleArea.user = null;
                 } case DEVELOPER -> {
                     SIM_MODE = ModeType.EXPLORER;
                     MainLayout.modeButton.setText("Go to Developer Mode");
@@ -115,8 +113,7 @@ public class Controller {
         MainLayout.pointPanel.getActionMap().put("pressedW", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Main.commandQueue.add(new Command(Direction.UP));
-
+                if(SIM_MODE == ModeType.EXPLORER) {Main.commandQueue.add(new Command(Direction.UP));}
             }
         });
 
@@ -124,7 +121,7 @@ public class Controller {
         MainLayout.pointPanel.getActionMap().put("pressedA", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Main.commandQueue.add(new Command(Direction.LEFT));
+                if(SIM_MODE == ModeType.EXPLORER) {Main.commandQueue.add(new Command(Direction.LEFT));}
             }
         });
 
@@ -132,7 +129,7 @@ public class Controller {
         MainLayout.pointPanel.getActionMap().put("pressedS", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Main.commandQueue.add(new Command(Direction.DOWN));
+                if(SIM_MODE == ModeType.EXPLORER) {Main.commandQueue.add(new Command(Direction.DOWN));}
             }
         });
 
@@ -140,7 +137,7 @@ public class Controller {
         MainLayout.pointPanel.getActionMap().put("pressedD", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Main.commandQueue.add(new Command(Direction.RIGHT));
+                if(SIM_MODE == ModeType.EXPLORER) {Main.commandQueue.add(new Command(Direction.RIGHT));}
             }
         });
     }
