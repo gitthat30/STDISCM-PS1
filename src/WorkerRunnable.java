@@ -22,20 +22,41 @@ public class WorkerRunnable implements Runnable {
 
             switch (direction) {
                 case UP -> {
-                    ParticleArea.user.y -= v;
-                    ParticleArea.user.cameraY -= v;
+                    if(ParticleArea.user.y - v < 0) {
+                        ParticleArea.user.y = 0.00;
+                    } else {
+                        ParticleArea.user.y -= v;
+                    }
+
+                    ParticleArea.user.cameraY = ParticleArea.user.y - 81.00;
                 }
                 case DOWN -> {
-                    ParticleArea.user.y += v;
-                    ParticleArea.user.cameraY += v;
+                    if(ParticleArea.user.y + v > 710) {
+                        ParticleArea.user.y = 710.00;
+                    } else {
+                        ParticleArea.user.y += v;
+                    }
+
+                    ParticleArea.user.cameraY = ParticleArea.user.y - 81.00;
                 }
                 case LEFT -> {
-                    ParticleArea.user.x -= v;
-                    ParticleArea.user.cameraX -= v;
+                    if(ParticleArea.user.x - v < 0) {
+                        ParticleArea.user.x = 0.00;
+                    } else {
+                        ParticleArea.user.x -= v;
+                    }
+
+                    ParticleArea.user.cameraX = ParticleArea.user.x - 144.00;
                 }
                 case RIGHT -> {
-                    ParticleArea.user.x += v;
-                    ParticleArea.user.cameraX += v;
+                    if(ParticleArea.user.x + v > 1270) {
+                        ParticleArea.user.x = 1270.00;
+                    } else {
+                        ParticleArea.user.x += v;
+                    }
+
+
+                    ParticleArea.user.cameraX = ParticleArea.user.x - 144.00;
                 }
             }
         }

@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -22,28 +23,43 @@ public class ParticleArea extends JPanel {
         user = new User();
     }
 
-    public void paint(Graphics g) {
-        super.paint(g);
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
         this.setBackground(Color.WHITE);
 
         g2d = (Graphics2D) g.create();
 
-        g2d.translate(user.x.intValue(), user.y.intValue());
+
+
+
+        System.out.println(user.x.intValue() + " " + user.y.intValue());
 
         if (Controller.SIM_MODE == ModeType.EXPLORER) {
-            scaleX = (double) getWidth() / (33.0 + ovalSize);
-            scaleY = (double) getHeight() / (19.0 + ovalSize);
+            g2d.translate(user.cameraX.intValue(), user.cameraY.intValue());
+            scaleX = (double) getWidth() / (33.0 * ovalSize);
+            scaleY = (double) getHeight() / (19.0 * ovalSize);
+
+            g2d.setTransform(new AffineTransform());
             g2d.scale(scaleX, scaleY);
+
+            g2d.translate(-user.cameraX.intValue(), -user.cameraY.intValue());
+
         } else {
-            g2d.scale(1.0, 1.0);
+            scaleX = 1.0;
+            scaleY = 1.0;
         }
 
-        g2d.translate(-1*user.x.intValue(), -1*user.y.intValue());
 
-        g2d.setColor(Color.BLUE);
-        g2d.fillRect(user.cameraX.intValue(), user.cameraY.intValue(), 33 + ovalSize, 19 + ovalSize);
+
+        g2d.setColor(Color.BLACK);
+        g2d.fillRect(-144, -81, 144, 850);
+        g2d.fillRect(1280, -81, 144, 850);
+        g2d.fillRect(-144, -81, 1280 + 144, 81);
+        g2d.fillRect(-144, 720, 1280 + 144, 81);
         g2d.setColor(Color.green);
         g2d.fillOval(user.x.intValue(), user.y.intValue(), ovalSize, ovalSize);
+
+
 
         int size = particleList.size();
         if(size > 0) {
@@ -78,10 +94,13 @@ public class ParticleArea extends JPanel {
                 }
             }
 
+
+
             RenderRunnable.frames++;
 
             drawThreadList.clear();
         }
+
     }
 }
 
