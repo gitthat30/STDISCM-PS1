@@ -1,4 +1,4 @@
-# STDISCM Problem Set 1 - Particle Simulator
+# STDISCM Problem Set 2 - Particle Simulator w/ Explorer Mode
 *Samuel Derrick Nieva, Viktoria Lila Sicuan (S12)*
 
 ## Description
