@@ -19,8 +19,12 @@ public class ParticleArea extends JPanel {
         super();
         this.setOpaque(true);
         this.setBackground(Color.WHITE);
+    }
 
-        user = new User();
+    public void createUser() {
+        if(user == null) {
+            user = new User();
+        }
     }
 
     public void paintComponent(Graphics g) {
@@ -29,12 +33,10 @@ public class ParticleArea extends JPanel {
 
         g2d = (Graphics2D) g.create();
 
-
-
-
-        System.out.println(user.x.intValue() + " " + user.y.intValue());
+//        System.out.println(user.x.intValue() + " " + user.y.intValue());
 
         if (Controller.SIM_MODE == ModeType.EXPLORER) {
+            createUser();
             g2d.translate(user.cameraX.intValue(), user.cameraY.intValue());
             scaleX = (double) getWidth() / (33.0 * ovalSize);
             scaleY = (double) getHeight() / (19.0 * ovalSize);
@@ -56,8 +58,15 @@ public class ParticleArea extends JPanel {
         g2d.fillRect(1280, -81, 144, 850);
         g2d.fillRect(-144, -81, 1280 + 144, 81);
         g2d.fillRect(-144, 720, 1280 + 144, 81);
-        g2d.setColor(Color.green);
-        g2d.fillOval(user.x.intValue(), user.y.intValue(), ovalSize, ovalSize);
+
+
+        if(user != null) {
+            g2d.setColor(Color.green);
+            g2d.fillOval(user.x.intValue(), user.y.intValue(), ovalSize, ovalSize);
+        }
+
+
+
 
 
 
@@ -73,7 +82,7 @@ public class ParticleArea extends JPanel {
 
             THREAD_COUNT = Math.min(THREAD_COUNT, particleList.size());
             for (int i = 0; i < THREAD_COUNT; i++) {
-                Thread t = new Thread(new DrawRunnable(tempStart, tempEnd, g2d));
+                Thread t = new Thread(new DrawRunnable(user, tempStart, tempEnd, g2d));
                 drawThreadList.add(t);
                 drawThreadList.get(drawThreadList.size() - 1).start();
 
@@ -105,11 +114,13 @@ public class ParticleArea extends JPanel {
 }
 
 class DrawRunnable implements Runnable {
+    User user;
     int start;
     int end;
     Graphics g;
 
-    public DrawRunnable(int start, int end, Graphics g) {
+    public DrawRunnable(User user, int start, int end, Graphics g) {
+        this.user = user;
         this.start = start;
         this.end = end;
         this.g = g;
@@ -119,8 +130,14 @@ class DrawRunnable implements Runnable {
     public void run() {
         for(int i = start; i <= end; i++) {
             Particle p = ParticleArea.particleList.get(i);
-            g.setColor(Color.black);
-            g.fillOval(p.x.intValue(), p.y.intValue(), ParticleArea.ovalSize, ParticleArea.ovalSize);
+            if(Controller.SIM_MODE == ModeType.EXPLORER && p.x.intValue() >= user.cameraX - 9 && p.x.intValue() <= (user.cameraX + 288) && p.y.intValue() >= user.cameraY - 9 && p.y.intValue() <= (user.cameraY + 162)){
+                g.setColor(Color.black);
+                g.fillOval(p.x.intValue(), p.y.intValue(), ParticleArea.ovalSize, ParticleArea.ovalSize);
+            } else {
+                g.setColor(Color.black);
+                g.fillOval(p.x.intValue(), p.y.intValue(), ParticleArea.ovalSize, ParticleArea.ovalSize);
+            }
+
         }
     }
 }

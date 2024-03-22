@@ -18,8 +18,8 @@ public class Controller {
                 //Parsing Input
                 double startX = Double.parseDouble(MainLayout.pointStartXField.getText());
                 double endX = Double.parseDouble(MainLayout.pointEndXField.getText());
-                double startY = 720 - Double.parseDouble(MainLayout.pointStartYField.getText());
-                double endY = 720 - Double.parseDouble(MainLayout.pointEndYField.getText());
+                double startY = 711 - Double.parseDouble(MainLayout.pointStartYField.getText());
+                double endY = 711 - Double.parseDouble(MainLayout.pointEndYField.getText());
                 int numParticles = Integer.parseInt(MainLayout.pointNumField.getText());
                 Double velocity = Double.parseDouble(MainLayout.pointVelocityField.getText());
                 Double angle = Double.parseDouble(MainLayout.pointAngleField.getText());
@@ -33,12 +33,14 @@ public class Controller {
                 double incrementY = distanceY / (numParticles + 1);
 
                 //Pointer starts at start
-                double pointerX = startX + incrementX;
-                double pointerY = startY - incrementY;
+                double pointerX = startX;
+                double pointerY = startY;
+
+                System.out.println("Starting: " + pointerX + " " + pointerY);
 
                 for(int x = 0;x < numParticles;x++) {
                     pointerX = Math.min(pointerX, 1270);
-                    pointerY = Math.min(pointerY, 710);
+                    pointerY = Math.min(pointerY, 711);
 
                     Main.commandQueue.add(new Command(pointerX, pointerY, velocity, angle));
 

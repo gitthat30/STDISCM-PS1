@@ -31,8 +31,8 @@ public class WorkerRunnable implements Runnable {
                     ParticleArea.user.cameraY = ParticleArea.user.y - 81.00;
                 }
                 case DOWN -> {
-                    if(ParticleArea.user.y + v > 710) {
-                        ParticleArea.user.y = 710.00;
+                    if(ParticleArea.user.y + v > 711) {
+                        ParticleArea.user.y = 711.00;
                     } else {
                         ParticleArea.user.y += v;
                     }
@@ -49,8 +49,8 @@ public class WorkerRunnable implements Runnable {
                     ParticleArea.user.cameraX = ParticleArea.user.x - 144.00;
                 }
                 case RIGHT -> {
-                    if(ParticleArea.user.x + v > 1270) {
-                        ParticleArea.user.x = 1270.00;
+                    if(ParticleArea.user.x + v > 1271) {
+                        ParticleArea.user.x = 1271.00;
                     } else {
                         ParticleArea.user.x += v;
                     }
@@ -74,9 +74,9 @@ public class WorkerRunnable implements Runnable {
         boolean bounceFlag = false;
         double perpendicularAngle = 0.0;
 
-        if (newX > 1270) {
+        if (newX > 1271) {
             bounceFlag = true;
-            newX = 1270.00;
+            newX = 1271.00;
             perpendicularAngle = 180.00;
             command.angle += 180.00; //Hitting from left
         } else if (newX < 0) {
@@ -89,9 +89,9 @@ public class WorkerRunnable implements Runnable {
             newY = 0.00;
             perpendicularAngle = 90.00;
             command.angle += 180.00; //Hitting from below
-        } else if (newY > 710) {
+        } else if (newY > 711) {
             bounceFlag = true;
-            newY = 710.00;
+            newY = 711.00;
             perpendicularAngle = 270.00;
             command.angle -= 180.00; //Hitting from below
 
@@ -119,8 +119,8 @@ public class WorkerRunnable implements Runnable {
             if(newY < 0) {
                 newY = 0.00;
             }
-            if(newY > 710) {
-                newY = 710.00;
+            if(newY > 711) {
+                newY = 711.00;
             }
         }
 
@@ -130,6 +130,7 @@ public class WorkerRunnable implements Runnable {
     }
 
     private void generateParticle() {
+        System.out.println("Generated");
         Particle temp = new Particle(command.x, command.y, command.velocity, command.angle);
         ParticleArea.particleList.add(temp);
         Main.commandQueue.add(new Command(temp, command.velocity, command.angle));
